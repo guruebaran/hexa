@@ -3,7 +3,7 @@ import serial
 import binascii
 import RPi.GPIO as GPIO
 
-serialport = serial.Serial("/dev/ttyAMA0", timeout=0.5)
+serialport = serial.Serial("/dev/ttyAMA0", timeout=10)
 serialport.baudrate = 9600
 
 
@@ -154,3 +154,9 @@ def ledSoundFunction(putstate, colour):
             GPIO.output(11, 0)
         if colour == 0:
             GPIO.output(8, 0)
+
+if __name__ == "__main__":
+    if initiateRegistration("7790844803")[0]:
+        if terminateRegistration()[0]:
+            #if continueRegistration()[0]:
+            print(done)

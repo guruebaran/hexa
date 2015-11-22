@@ -103,6 +103,7 @@ class LCD_GPIO(object):
 
         # Toggle E
         if(currentScreen == 0):
+            print("cs0")
             time.sleep(self.E_DELAY)
             GPIO.output(self.E1, True)
             time.sleep(self.E_PULSE)
@@ -226,8 +227,13 @@ def clearDisplay(screen):
     lcd.lcd_cls()
 
 if __name__ == "__main__":
-    clearDisplay()
-    displayText("{:^21}".format("  Project Hexa"),3,1)
-    displayText("{:^21}".format(" Welcomes You!! "),4,1)
+    clearDisplay(0)
+    print("hi")
+    displayText("{:^21}".format("  Project Hexa"),3,1,0)
+    displayText("{:^21}".format(" Welcomes You!! "),4,1,0)
+    clearDisplay(1)
+    displayText("{:^21}".format("  Project Hexa"),3,1,1)
+    displayText("{:^21}".format(" Welcomes You!! "),4,1,1)
+
     GPIO.cleanup()
 

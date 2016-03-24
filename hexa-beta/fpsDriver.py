@@ -10,3 +10,5 @@ def fpsTransmitter(data):
 
 def fpsReceiver():
     return binascii.hexlify(serialport.read(12)).decode("utf-8")
+
+def checksum(dataString):

@@ -43,11 +43,11 @@ def createtables():
        VendorBalance REAL );''')
     print("vendor details Table created successfully")
 
-def reguser(id, phn, bal, name='NULL', email='NULL'):
-    conn.execute("INSERT INTO CUST (ID,PHN,NAME,EMAIL,BAL) \
-      VALUES (?, ?, ?, ?, ? )" ,(id, phn, name, email, bal))
+def reguser (id, phn, bal, name = 'NULL', email='NULL'):
+    conn.execute("INSERT INTO CustomerDetails (ID,PHN,NAME,EMAIL,BAL) \
+      VALUES (?, ?, ?, ?, ? )", (id, phn, name, email, bal))
     conn.commit()
-    trans(id,bal,'+')
+    trans(id, bal, '+')
     conn.commit()
     print("Records created successfully")
 
@@ -106,6 +106,7 @@ def disp_all():
     print("Operation done successfully")
 
 
+#createtables()
 #conn.execute('''.schema LOGS''')
 #trans(101,1,'+')
 #reguser(101,'7790844803',200)

@@ -1,0 +1,9 @@
+import os
+import RPi.GPIO as GPIO
+import fps
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(18, GPIO.OUT)
+GPIO.setup(23, GPIO.OUT)
+GPIO.setup(24, GPIO.OUT)

@@ -1,0 +1,41 @@
+import os
+import RPi.GPIO as GPIO
+import database
+import fps
+import kbh
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+while True:
+    if(GPIO.input(18) ==1):
+        registerMode()
+    if(GPIO.input(23) ==1):
+        rechargeMode()
+    if(GPIO.input(24) ==1):
+        paymentMode()
+
+
+
+
+
+GPIO.cleanup()
+
+kb = KBHit()
+
+print('Hit any key, or ESC to exit')
+
+while True:
+
+if kb.kbhit():
+    c = kb.getch()
+    if ord(c) == 27: # ESC
+        break
+    print(c)
+             
+kb.set_normal_term()

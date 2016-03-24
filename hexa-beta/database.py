@@ -9,15 +9,12 @@ print("Opened database successfully")
 
 def createtables():
     conn.execute('''CREATE TABLE CustomerDetails
-       (AccountId INT PRIMARY KEY NOT NULL,
-       MobileNumber CHAR(10) NOT NULL UNIQUE,
-       FPId1         INT,
-       FPId2         INT,
+       (MobileNumber CHAR(10) PRIMARY KEY NOT NULL UNIQUE,
        AccountBalance REAL);''')
     print("CustomerDeails Table created successfully")
     conn.execute('''CREATE TABLE TransactionLogs
        (TransactionId INT PRIMARY KEY NOT NULL,
-       AccountId INT   NOT NULL,
+       MobileNumber CHAR(10) NOT NULL,
        TransactionType CHAR NOT NULL,
        DateTime TEXT NOT NULL,
        VendorId INT NOT NULL,
@@ -38,26 +35,27 @@ def createtables():
     conn.execute('''CREATE TABLE VendingUserDetails
        (UserId INT PRIMARY KEY     NOT NULL,
        VendorId INT NOT NULL,
-       FPVId1 INT,
-       FPVId2 INT,
-       VendorBalance REAL );''')
+       AccessPin INT );''')
     print("vendor details Table created successfully")
 
-def reguser (id, phn, bal, name = 'NULL', email='NULL'):
-    conn.execute("INSERT INTO CustomerDetails (ID,PHN,NAME,EMAIL,BAL) \
-      VALUES (?, ?, ?, ?, ? )", (id, phn, name, email, bal))
+def registerVendor():
+    print("hi")
+
+def registerUser (MobileNumber, VendorId, AccountBalance = 0):
+    conn.execute("INSERT INTO CustomerDetails (MobileNumber,AccountBalance) \
+      VALUES (?, ?)", (MobileNumber, 0))
     conn.commit()
-    trans(id, bal, '+')
+    trans(MobileNumber, AccountBalance, '+', VendorId)
     conn.commit()
     print("Records created successfully")
 
-def trans(id,amt,ttype):
-    s = "SELECT AccountBalance from CustomerDetails WHERE AccountId = %d" % id
+def trans(MobileNumber,Amount,TransactionType, VendorId):
+    s = "SELECT AccountBalance from CustomerDetails WHERE MobileNumber = '{!s}'".format(MobileNumber)
     cursor = conn.execute(s)
     for row in cursor:
-        bal=row[0]
-    if(ttype == '-'):
-        if(bal<amt):
+        currentBalance=row[0]
+    if(TransactionType == '-'):
+        if(currentBalance<Amount):
             return 0
     if (os.path.isfile("transid.dat")):
         fo = open("transid.dat", "rb+")
@@ -73,44 +71,56 @@ def trans(id,amt,ttype):
         tid = 1
         fo.write(bytes(str(tid), 'UTF-8'))
     fo.close()
-    conn.execute("INSERT INTO LOGS (TRANSID,ID,TRANSTYPE,AMT) \
-      VALUES (?, ?, ?, ? )",(tid, id, ttype, amt))
-    if (ttype == '+'):
-        t = bal+amt
-        s = "UPDATE CUST SET BAL = %d WHERE ID = %d" %(t , id)
-        conn.execute(s)
-    elif(ttype == '-'):
-        t = bal-amt
-        s = "UPDATE CUST SET BAL = %d WHERE ID = %d" %(t , id)
-        conn.execute(s)
+    for row in conn.execute('SELECT datetime("now","localtime")'):
+        DateTime = row[0]
+        break
+    conn.execute("INSERT INTO TransactionLogs (TransactionId,MobileNumber,TransactionType, DateTime, VendorId ,Amount) \
+      VALUES (?, ?, ?, ?, ?, ? )",(tid, MobileNumber, TransactionType, DateTime, VendorId, Amount))
+    if (TransactionType == '+'):
+        t = currentBalance + Amount
+        #s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
+        conn.execute("UPDATE CustomerDetails SET AccountBalance = ? WHERE MobileNumber = ?",(t, MobileNumber))
+    elif(TransactionType == '-'):
+        t = currentBalance - Amount
+        #s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
+        conn.execute("UPDATE CustomerDetails SET AccountBalance = ? WHERE MobileNumber = ?",(t, MobileNumber))
     conn.commit()
     print("Records created successfully id = %d"%(tid))
     return 1
 
-def getbal(id):
-    s = "SELECT AccountBalance from CustomerDetails WHERE AccountId = %d" % id
+def getbal(MobileNumber):
+    s = "SELECT AccountBalance from CustomerDetails WHERE MobileNumber = %s" % MobileNumber
     cursor = conn.execute(s)
     for row in cursor:
         bal=row[0]
         return bal
     return -1
 
-def disp_all():
-    cursor = conn.execute("SELECT *  from CUST")
+def displayAllTransactionLogs():
+    cursor = conn.execute("SELECT *  from TransactionLogs")
     for row in cursor:
-        print("ID = ", row[0])
-        print("PHN = ", row[1])
-        print("NAME = ", row[2])
-        print("EMAIL = ", row[3])
-        print("BAL = ", row[4]), "\n"
+        print("\nTransactionId = ", row[0])
+        print("MobileNumber = ", row[1])
+        print("TransactionType = ", row[2])
+        print("DateTime = ", row[3])
+        print("VendorId = ", row[4])
+        print("Amount = ", row[5])
     print("Operation done successfully")
+
+def displayAllCustomerDetails():
+    cursor = conn.execute("SELECT *  from CustomerDetails")
+    for row in cursor:
+        print("\nMobileNumber = ", (row[0]))
+        print("AccountBalance = ", (row[1]))
+    print("Operation done successfully")
+
 
 
 #createtables()
 #conn.execute('''.schema LOGS''')
-#trans(101,1,'+')
-#reguser(101,'7790844803',200)
-#disp_all()
-#print(getbal(100))
-
+#trans("7790844870",100,'+',1001)
+#registerUser("7790844870",500, 1001)
+displayAllTransactionLogs()
+#print(getbal("7790844870"))
+displayAllCustomerDetails()
 conn.close()

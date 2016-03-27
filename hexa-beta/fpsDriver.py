@@ -11,6 +11,12 @@ def fpsTransmitter(data):
 def fpsReceiver():
     return binascii.hexlify(serialport.read(12)).decode("utf-8")
 
+def fpsReceiverWithExtraData()
+    return binascii.hexlify(serialport.read(17)).decode("utf-8")
+
+def fpsTemplateReceiver()
+    return binascii.hexlify(serialport.read(1623)).decode("utf-8")
+
 def checkSum(dataString,write):
     totalSum = 0
     for i in range(0,22):
@@ -35,7 +41,80 @@ def dataCompiler(channel,command,param11,param12,param21,param22,dataSize11,data
     else:
         return 0
 
-def registrationDataGenerator():
-def verificationDataGenerator():
-def getTemplateGenerator():
-def extraDataGenerator():
+
+#0x50 command starts the registration by finger info
+def initiateRegistration(mobileNumber):
+    data = dataCompiler('00','50','ff','ff','00','00','05','00','00','00','00')
+    fpsTransmitter(data+mobileNumber)
+    str=fpsReceiver()
+    chk=checkSum(str,0)
+    if (chk[0] == 1)
+        if(str[2:4] == '50' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00')
+            return (1,'00')
+        else
+            return (0,'00')
+    else
+        return (0,str[20:22])
+
+#0x51 command ends registration
+def terminateRegistration():
+    data = dataCompiler('00','51','00','00','00','00','00','00','00','00','00')
+    fpsTransmitter(data)
+    str=fpsReceiver()
+    chk=checkSum(str,0)
+    if (chk[0] == 1)
+        if(str[2:4] == '51' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00')
+            return (1,'00')
+        else
+            return (0,'00')
+    else
+        return (0,str[20:22])
+
+
+#0x19 command for including 2nd finger
+def continueRegistration():
+    data = dataCompiler('00','19','00','00','00','00','00','00','00','00','00')
+    fpsTransmitter(data)
+    str=fpsReceiver()
+    chk=checkSum(str,0)
+    if (chk[0] == 1)
+        if(str[2:4] == '19' and str[4:6] == '00' and str[6:8] == '00' and str[20:22] == '00')
+            return (1,'00')
+        else
+            return (0,'00')
+    else
+        return (0,str[20:22])
+
+#0xA3 command for getting input from finger print
+def identify():
+    str=fpsReceiverWithExtraData()
+
+    chk=checkSum(str,0)
+    if (chk[0] == 1)
+        if(str[2:4] == 'a3' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[8:10] == '00' and str[10:12] == '00' and str[12:14] == '05' and str[20:22] =='00')
+            return (1,str[24:34])
+        else
+            return (0,'00')
+    else
+        return (0,str[20:22])
+
+
+def getTemplateGenerator(mobileNumber):
+    data = dataCompiler('00','73','ff','ff','00','00','05','00','00','00','00')
+    fpsTransmitter(data+mobileNumber)
+    str = fpsTemplateReceiver()
+    chk=checkSum(str[0:24],0)
+    if (chk[0] == 1)
+        if(str[2:4] == '73' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[3232:3242] == 'mobileNumber')
+            #template1 = str[32:3232]
+            #template2 = str[1632:3232]
+
+            return (1,str[32:3232])
+        else
+            return (0,'00')
+    else
+        return (0,str[20:22])
+
+def putTemplateGenerator():
+    print("function under construction")
+

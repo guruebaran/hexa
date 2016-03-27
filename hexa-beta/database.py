@@ -38,8 +38,23 @@ def createtables():
        AccessPin INT );''')
     print("vendor details Table created successfully")
 
-def registerVendor():
-    print("hi")
+def registerVendor(VendorId, VendorName = "NULL", VendorBalance = 0.00):
+    conn.execute("INSERT INTO VendorDetails (VendorId, VendorName, VendorBalance) \
+      VALUES (?, ?, ?)", (VendorId, VendorName, VendorBalance))
+    conn.commit()
+    print("Vendor created successfully")
+
+def registerVendingUser(UserId, VendorId, AccessPin):
+    conn.execute("INSERT INTO VendorDetails (UserId, VendorId, AccessPin) \
+      VALUES (?, ?, ?)", (UserId, VendorId, AccessPin))
+    conn.commit()
+    print("Vending user created successfully")
+
+def createVendorLog(LogId, DeviceId, VendorId, UserId, DateTime):
+    conn.execute("INSERT INTO VendorDetails (LogId, DeviceId, VendorId, UserId, DateTime) \
+      VALUES (?, ?, ?, ? ,?)", (LogId, DeviceId, VendorId, UserId, DateTime))
+    conn.commit()
+    print("Vendor log created successfully")
 
 def registerUser (MobileNumber, VendorId, AccountBalance = 0):
     conn.execute("INSERT INTO CustomerDetails (MobileNumber,AccountBalance) \
@@ -50,10 +65,7 @@ def registerUser (MobileNumber, VendorId, AccountBalance = 0):
     print("Records created successfully")
 
 def trans(MobileNumber,Amount,TransactionType, VendorId):
-    s = "SELECT AccountBalance from CustomerDetails WHERE MobileNumber = '{!s}'".format(MobileNumber)
-    cursor = conn.execute(s)
-    for row in cursor:
-        currentBalance=row[0]
+    currentBalance=getbal(MobileNumber)
     if(TransactionType == '-'):
         if(currentBalance<Amount):
             return 0
@@ -71,11 +83,9 @@ def trans(MobileNumber,Amount,TransactionType, VendorId):
         tid = 1
         fo.write(bytes(str(tid), 'UTF-8'))
     fo.close()
-    for row in conn.execute('SELECT datetime("now","localtime")'):
-        DateTime = row[0]
-        break
+    DateTime = getDateTime()
     conn.execute("INSERT INTO TransactionLogs (TransactionId,MobileNumber,TransactionType, DateTime, VendorId ,Amount) \
-      VALUES (?, ?, ?, ?, ?, ? )",(tid, MobileNumber, TransactionType, DateTime, VendorId, Amount))
+      VALUES (?, ?, ?, ?, ?,     ? )",(tid, MobileNumber, TransactionType, DateTime, VendorId, Amount))
     if (TransactionType == '+'):
         t = currentBalance + Amount
         #s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
@@ -88,12 +98,15 @@ def trans(MobileNumber,Amount,TransactionType, VendorId):
     print("Records created successfully id = %d"%(tid))
     return 1
 
+def getDateTime():
+    for row in conn.execute('SELECT datetime("now","localtime")'):
+        return row[0]
+
 def getbal(MobileNumber):
     s = "SELECT AccountBalance from CustomerDetails WHERE MobileNumber = %s" % MobileNumber
     cursor = conn.execute(s)
     for row in cursor:
-        bal=row[0]
-        return bal
+        return row[0]
     return -1
 
 def displayAllTransactionLogs():
@@ -120,6 +133,8 @@ def displayAllCustomerDetails():
 #conn.execute('''.schema LOGS''')
 #trans("7790844870",100,'+',1001)
 #registerUser("7790844870",500, 1001)
+#registerVendor(1001,"Tuck Shop", 0)
+
 displayAllTransactionLogs()
 #print(getbal("7790844870"))
 displayAllCustomerDetails()

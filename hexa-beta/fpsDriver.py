@@ -116,5 +116,13 @@ def getTemplateGenerator(mobileNumber):
         return (0,str[20:22])
 
 def putTemplateGenerator():
+
     print("function under construction")
 
+def autoIdentifyStart():
+
+    print("Auto identify started")
+
+def autoIdentifyStop():
+
+    print("Auto identify stopped")

@@ -225,8 +225,9 @@ def clearDisplay(screen):
     currentScreen = screen
     lcd.lcd_cls()
 
-clearDisplay()
-displayText("{:^21}".format("  Project Hexa"),3,1)
-displayText("{:^21}".format(" Welcomes You!! "),4,1)
-GPIO.cleanup()
+if __name__ == "__main__":
+    clearDisplay()
+    displayText("{:^21}".format("  Project Hexa"),3,1)
+    displayText("{:^21}".format(" Welcomes You!! "),4,1)
+    GPIO.cleanup()
 

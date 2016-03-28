@@ -130,7 +130,8 @@ def displayAllCustomerDetails():
 
 
 #createtables()
-#conn.execute('''.schema LOGS''')
+#conn.execute('.schema LOGS')
+#conn.execute('.tables')
 #trans("7790844870",100,'+',1001)
 #registerUser("7790844870",500, 1001)
 #registerVendor(1001,"Tuck Shop", 0)

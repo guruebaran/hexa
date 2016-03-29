@@ -1,21 +1,61 @@
 __author__ = 'guru'
 
+
+#state 40 = enter the phone number
+#state 61 = phone number already exist try new number
 #state 10 = Ask's user to place their finger on FPS
 #state 20 = Scanning ur finger now
 #state 30 = remove ur finger and place it again
-#state 40 = enter the phone number
-#state 41 = sorry user already exists
+#state 41 = sorry user fingerprint already exists
 #state 50 = processing please wait
-#state 60 = initial deposite info
-#state 61 = phone number already exist try new number
+#state 60 = initial deposit info
 #state 70 = Full info
 
 #screen = 0 vendor,screen = 1 customer.
 
 import GLCD as g
 
+currentState = 0
 fontWidth = 6
 lineLength = 21
+
+
+def state40(phoneNumber = '0000000000'):
+    #vendor Screen
+    string = ("{:.^%d}" % lineLength).format("PLEASE ENTER THE")
+    g.displayText(string,2,0,0)
+    string = ("{:.^%d}" % lineLength).format("PHONE NUMBER")
+    g.displayText(string,3,0,0)
+    string = ("{:.<%d}" % lineLength).format("PH.NO:")
+    g.displayText(string,4,0,0)
+    string = "{:<10}".format(phoneNumber)
+    g.displayText(string,4,(6*fontWidth-1),0)
+    #user Screen
+    g.clearDisplay()
+    string = ("{:.<%d}" % lineLength).format("PH.NO:")
+    g.displayText(string,4,0,1)
+    string = "{:<10}".format(phoneNumber)
+    g.displayText(string,4,(6*fontWidth-1),1)
+
+
+def state61():
+    #vendor Screen
+
+    string = ("{:.^%d}" % lineLength).format("PHONE NUMBER IS")
+    g.displayText(string,3,0,0)
+    string = ("{:.^%d}" % lineLength).format("ALREADY REGD")
+    g.displayText(string,4,0,0)
+
+
+    #User Screen
+    string = ("{:.^%d}" % lineLength).format("IT SEEMS THE ")
+    g.displayText(string,2,0,1)
+    string = ("{:.^%d}" % lineLength).format("PHONE NUMBER IS")
+    g.displayText(string,3,0,1)
+    string = ("{:.^%d}" % lineLength).format("ALREADY REGD")
+    g.displayText(string,4,0,1)
+    string = ("{:.^%d}" % lineLength).format("TRY A NEW NUMBER")
+    g.displayText(string,5,0,1)
 
 
 def state10():
@@ -32,8 +72,6 @@ def state10():
     g.displayText(string,0,0,1)
     string = ("{:.^%d}" % lineLength).format("PLACE UR FINGER")
     g.displayText(string,3,0,1)
-
-
 
 
 def state20():
@@ -61,24 +99,6 @@ def state30():
     g.displayText(string,3,0,1)
     string = ("{:.^%d}" % lineLength).format("PLACE IT AGAIN")
     g.displayText(string,4,0,1)
-
-
-def state40(phoneNumber = '0000000000'):
-    #vendor Screen
-    string = ("{:.^%d}" % lineLength).format("PLEASE ENTER THE")
-    g.displayText(string,2,0,0)
-    string = ("{:.^%d}" % lineLength).format("PHONE NUMBER")
-    g.displayText(string,3,0,0)
-    string = ("{:.<%d}" % lineLength).format("PH.NO:")
-    g.displayText(string,4,0,0)
-    string = "{:<10}".format(phoneNumber)
-    g.displayText(string,4,(6*fontWidth-1),0)
-    #user Screen
-    g.clearDisplay()
-    string = ("{:.<%d}" % lineLength).format("PH.NO:")
-    g.displayText(string,4,0,1)
-    string = "{:<10}".format(phoneNumber)
-    g.displayText(string,4,(6*fontWidth-1),1)
 
 
 def state41():
@@ -126,26 +146,6 @@ def state60(accountBalance):
     g.displayText(string,3,0,1)
     string = ("{:.^%d}" % lineLength).format("TO DEPOSITE")
     g.displayText(string,4,0,1)
-
-
-def state61():
-    #vendor Screen
-
-    string = ("{:.^%d}" % lineLength).format("PHONE NUMBER IS")
-    g.displayText(string,3,0,0)
-    string = ("{:.^%d}" % lineLength).format("ALREADY REGD")
-    g.displayText(string,4,0,0)
-
-
-    #User Screen
-    string = ("{:.^%d}" % lineLength).format("IT SEEMS THE ")
-    g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("PHONE NUMBER IS")
-    g.displayText(string,3,0,1)
-    string = ("{:.^%d}" % lineLength).format("ALREADY REGD")
-    g.displayText(string,4,0,1)
-    string = ("{:.^%d}" % lineLength).format("TRY A NEW NUMBER")
-    g.displayText(string,5,0,1)
 
 
 def state70(phoneNumber"0000000000",accountBalance="000.00"):

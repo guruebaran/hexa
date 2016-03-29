@@ -1,10 +1,10 @@
 import RPi.GPIO as GPIO
 import database
 import fpsDriver
-import idleScreen
-import miniStatementScreen
-import rechargeScreen
-import userRegistration
+import idleScreen as idls
+import miniStatementScreen as mins
+import rechargeScreen as rchs
+import userRegistrationScreen as regs
 import kbh
 
 state = 0
@@ -63,14 +63,16 @@ while True:
     if GPIO.input(21) ==1:
         if state == 0:
             miniStatementmode()
-        elif state == 2:
-
-            print("recharge mode")
         elif state == 3:
 
             print("payment mode")
+        elif state == 2:
+
+            print("recharge mode")
         elif state == 4:
             miniStatementmode()
+        elif state == 1:
+            print ("In register mode, Unexpected behavior")
 
 #---------------------------------------------------------------------------------------------------------------------
 

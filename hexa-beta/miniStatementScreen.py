@@ -10,6 +10,8 @@ __author__ = 'guru'
 
 import GLCD as g
 
+currentState = 0
+
 fontWidth = 6
 lineLength = 21
 

@@ -110,8 +110,9 @@ if __name__ == "__main__":
         if kb.kbhit():
             c = kb.getch()
             if ord(c) == 27: # ESC
+                print(c, "++++", ord(c))
                 break
-            print(c)
+            print(c,"----------",ord(c))
 
     kb.set_normal_term()
 

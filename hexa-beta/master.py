@@ -8,6 +8,13 @@ import userRegistrationScreen as regs
 import kbh
 
 state = 0
+# state 0 - idle_Screen mode
+# state 1 - registration mode
+# state 2 - recharge mode
+# state 3 - payment mode
+# state 4 - ministatement mode
+
+
 kb = kbh.KBHit()
 
 
@@ -39,17 +46,17 @@ def miniStatementmode():
 while True:
     if kb.kbhit():
         x = kb.getch()
-        if state == 1:
-            print("1")
+        if state == 3:
+            print("3")
 
         if state == 2:
             print("2")
 
-        if state == 3:
-            print("3")
-
         if state == 4:
             print("4")
+
+        if state == 1:
+            print("1")
 
     if GPIO.input(16) ==1:
         if state == 0:
@@ -84,5 +91,5 @@ while True:
 
 
 
-
+database.conn.close()
 GPIO.cleanup()

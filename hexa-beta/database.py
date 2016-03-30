@@ -139,4 +139,3 @@ def displayAllCustomerDetails():
 displayAllTransactionLogs()
 #print(getbal("7790844870"))
 displayAllCustomerDetails()
-conn.close()

@@ -6,6 +6,8 @@ lineLength = 21
 
 
 def state10():
+    global currentState
+    currentState = 10
     #vendor Screen
     g.clearDisplay(0)
 

@@ -20,7 +20,9 @@ fontWidth = 6
 lineLength = 21
 
 
-def state40(phoneNumber = '0000000000'):
+def state40(phoneNumber = ' '):
+    global currentState
+    currentState = 40
     #vendor Screen
     string = ("{:.^%d}" % lineLength).format("PLEASE ENTER THE")
     g.displayText(string,2,0,0)
@@ -39,6 +41,8 @@ def state40(phoneNumber = '0000000000'):
 
 
 def state61():
+    global currentState
+    currentState = 61
     #vendor Screen
 
     string = ("{:.^%d}" % lineLength).format("PHONE NUMBER IS")
@@ -59,6 +63,8 @@ def state61():
 
 
 def state10():
+    global currentState
+    currentState = 10
     #vendor Screen
     g.clearDisplay()
     string = ("{:.^%d}" % lineLength).format("REGISTERING")
@@ -75,6 +81,8 @@ def state10():
 
 
 def state20():
+    global currentState
+    currentState = 20
     #vendor Screen
     g.clearDisplay()
     string = ("{:.^%d}" % lineLength).format("SCANNING USER'S")
@@ -89,6 +97,8 @@ def state20():
 
 
 def state30():
+    global currentState
+    currentState = 30
     #vendor Screen
 
     #User Screen
@@ -102,6 +112,8 @@ def state30():
 
 
 def state41():
+    global currentState
+    currentState = 41
     #vendor Screen
 
     string = ("{:.^%d}" % lineLength).format("FINGER PRINT")
@@ -118,6 +130,8 @@ def state41():
 
 
 def state50():
+    global currentState
+    currentState = 50
     #vendor Screen
     string = ("{:.^%d}" % lineLength).format("PROCESSING")
     g.displayText(string,2,0,1)
@@ -132,6 +146,8 @@ def state50():
 
 
 def state60(accountBalance):
+    global currentState
+    currentState = 60
     #vendor Screen
     string = ("{:.^%d}" % lineLength).format("DEPOSITE AMOUNT")
     g.displayText(string,2,0,0)

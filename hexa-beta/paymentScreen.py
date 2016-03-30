@@ -16,6 +16,8 @@ lineLength = 21
 
 
 def state10(paymentAmount):
+    global currentState
+    currentState = 10
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("PAYMENT AMOUNT")
@@ -34,6 +36,8 @@ def state10(paymentAmount):
     g.displayText(paymentAmount,3,(3*fontWidth-1),1)
 
 def state20():
+    global currentState
+    currentState = 20
     #vendor Screen
     g.clearDisplay(0)
 
@@ -50,6 +54,8 @@ def state20():
 
 
 def state30():
+    global currentState
+    currentState = 30
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("SCANNING USER'S")
@@ -65,6 +71,8 @@ def state30():
     g.displayText(string,3,0,1)
 
 def state31():
+    global currentState
+    currentState = 31
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("ACCOUNT NOT FOUND")
@@ -76,6 +84,8 @@ def state31():
     g.displayText(string,3,0,1)
 
 def state32():
+    global currentState
+    currentState = 32
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("NO ENOUGH BALANCE")
@@ -91,6 +101,8 @@ def state32():
 
 
 def state40(paymentAmount):
+    global currentState
+    currentState = 40
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("PAYMENT SUCCESSFUL")

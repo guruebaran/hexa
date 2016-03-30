@@ -15,6 +15,8 @@ lineLength = 21
 
 
 def state10(rechargeAmount):
+    global currentState
+    currentState = 10
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("RECHARGE AMOUNT")
@@ -32,6 +34,8 @@ def state10(rechargeAmount):
     g.displayText(rechargeAmount,3,(3*fontWidth-1),1)
 
 def state20():
+    global currentState
+    currentState = 20
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("RECHARGING")c
@@ -50,6 +54,8 @@ def state20():
 
 
 def state30():
+    global currentState
+    currentState = 30
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("SCANNING USER'S")
@@ -65,6 +71,8 @@ def state30():
     g.displayText(string,3,0,1)
 
 def state31():
+    global currentState
+    currentState = 31
     #vendor Screen
     g.clearDisplay(0)
     g.clearDisplay()
@@ -81,6 +89,8 @@ def state31():
 
 
 def state40(rechargeAmount,newBalance):
+    global currentState
+    currentState = 40
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("RECHARGE SUCCESSFUL")

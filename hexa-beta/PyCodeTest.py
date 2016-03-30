@@ -228,3 +228,11 @@ testvar1=binascii.hexlify(s).decode("utf-8")
 print ("\n\n***>>>",type(testvar1 ),">>>>>",testvar1)
 print (">>>>",testvar1[0])
 
+phn = "5678"
+#x = "0"
+#phn = phn + x + x
+x = "0"
+
+#phn = phn + x
+print (phn[0:len(phn)-1])
+

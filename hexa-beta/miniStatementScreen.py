@@ -17,6 +17,8 @@ lineLength = 21
 
 
 def state10():
+    global currentState
+    currentState = 10
     #vendor Screen
     g.clearDisplay(0)
 
@@ -32,6 +34,8 @@ def state10():
 
 
 def state20():
+    global currentState
+    currentState = 20
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("SCANNING USER'S")
@@ -48,6 +52,8 @@ def state20():
 
 
 def state21():
+    global currentState
+    currentState = 21
     #vendor Screen
 
     #User Screen
@@ -58,6 +64,8 @@ def state21():
 
 
 def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
+    global currentState
+    currentState = 30
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("MINI-STATEMENT")

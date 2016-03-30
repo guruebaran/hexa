@@ -4,6 +4,7 @@ import fpsDriver
 import idleScreen as idls
 import miniStatementScreen as mins
 import rechargeScreen as rchs
+import paymentScreen as pays
 import userRegistrationScreen as regs
 import kbh
 
@@ -22,8 +23,10 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(16, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # register
 GPIO.setup(20, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # recharge
 GPIO.setup(21, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # payment
-GPIO.setup(21, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # mini
 GPIO.setup(21, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # back
+GPIO.setup(21, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # FPS Interrupt
+# buzzer
+#light 2
 
 
 def registermode():

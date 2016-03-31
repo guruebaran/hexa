@@ -1,6 +1,7 @@
 __author__ = 'guru'
 import sqlite3
 import os.path
+import sys
 
 conn = sqlite3.connect('hexabeta.db')
 
@@ -127,6 +128,22 @@ def displayAllCustomerDetails():
         print("AccountBalance = ", (row[1]))
     print("Operation done successfully")
 
+p = 0
+
+def verifyMobileNumber():
+    try:
+        a = "779084487"
+        cursor = conn.execute("SELECT AccountBalance from CustomerDetails WHERE MobileNumber = ? ", (a,))
+        for row in cursor:
+            p = row[0]
+        #print(p)
+        return 0, "Mobile number already Exist", p
+    except UnboundLocalError as e:
+        if e.args[0] == "local variable 'p' referenced before assignment":#"name 'p' is not defined":
+            return 1, "Mobile number not found", e
+            #print("yay",e)
+        else:
+            print("unexpected behavior")
 
 
 #createtables()
@@ -135,7 +152,7 @@ def displayAllCustomerDetails():
 #trans("7790844870",100,'+',1001)
 #registerUser("7790844870",500, 1001)
 #registerVendor(1001,"Tuck Shop", 0)
-
-displayAllTransactionLogs()
+#displayAllTransactionLogs()
 #print(getbal("7790844870"))
 displayAllCustomerDetails()
+print(verifyMobileNumber())

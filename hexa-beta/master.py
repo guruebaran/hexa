@@ -74,6 +74,42 @@ while True:
                     urs.state40(mobileNumber)
                 elif ord(x) == 13 or ord(x) == 10:
                     if len(mobileNumber) == 10:
+                        if database.verifyMobileNumber()[0] == 0:#.........number alerady exists
+                            urs.state61()
+                        else: #.......not existing
+                            urs.state100()
+                            fps.autoIdentifyStart()
+                                if fps.identify()[0] == 0:
+                                    fps.autoIdentifyStop()
+                                    if fps.initiateRegistration(mobileNumber)[0] == 1:
+                                        urs.state30()
+                                        if fps.terminateRegistration()[0] == 1:
+                                            if fps.continueRegistration()[0] == 1:
+                                                urs.state101()
+                                                urs.autoIdentifyStart()
+                                                if urs.identify()[0] == 0:
+                                                    urs.autoIdentifyStop()
+                                                    if fps.initiateRegistration(mobileNumber)[0] == 1:
+                                                        urs.state30()
+                                                        if fps.terminateRegistration()[0] == 1:
+                                                            urs.state50()
+                                                            if getTemplateGenerator(mobileNumber)[0] == 1:
+                                                                #add template to the database
+                                                                urs.state60()
+                                                                #add money to account
+                                                                urs.state70(phoneNumber,accountBalance)#parameters should be from database
+                                                                sleep
+                                                else:
+                                                    print("poda panni")
+
+                                else:
+                                    print("poda panni")
+            if urs.currentState == 61:
+                if ord(x) == 13 or ord(x) == 10:
+                    urs.state40()
+
+
+
 
 
 

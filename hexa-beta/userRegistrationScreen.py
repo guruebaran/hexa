@@ -3,7 +3,8 @@ __author__ = 'guru'
 
 #state 40 = enter the phone number
 #state 61 = phone number already exist try new number
-#state 10 = Ask's user to place their finger on FPS
+#state 100 = Ask's user to place their 1st finger on FPS
+#state 101 = Ask's user to place their 2st finger on FPS
 #state 20 = Scanning ur finger now
 #state 30 = remove ur finger and place it again
 #state 41 = sorry user fingerprint already exists
@@ -62,22 +63,43 @@ def state61():
     g.displayText(string,5,0,1)
 
 
-def state10():
+def state100():
     global currentState
     currentState = 10
     #vendor Screen
     g.clearDisplay()
     string = ("{:.^%d}" % lineLength).format("REGISTERING")
     g.displayText(string,0,0,0)
-    string = ("{:.^%d}" % lineLength).format("WAITING FOR FINGER")
+    string = ("{:.^%d}" % lineLength).format("WAITING FOR 1st FINGER")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay()
     string = ("{:.^%d}" % lineLength).format("REGISTERING")
     g.displayText(string,0,0,1)
-    string = ("{:.^%d}" % lineLength).format("PLACE UR FINGER")
+    string = ("{:.^%d}" % lineLength).format("PLACE UR 1st FINGER")
     g.displayText(string,3,0,1)
+
+
+
+def state101():
+    global currentState
+    currentState = 10
+    #vendor Screen
+    g.clearDisplay()
+    string = ("{:.^%d}" % lineLength).format("REGISTERING")
+    g.displayText(string,0,0,0)
+    string = ("{:.^%d}" % lineLength).format("WAITING FOR 2ND FINGER")
+    g.displayText(string,3,0,0)
+
+    #User Screen
+    g.clearDisplay()
+    string = ("{:.^%d}" % lineLength).format("REGISTERING")
+    g.displayText(string,0,0,1)
+    string = ("{:.^%d}" % lineLength).format("REMOVE FINGER")
+    g.displayText(string,3,0,1)
+    string = ("{:.^%d}" % lineLength).format("AND PLACE 2nd FINGER")
+    g.displayText(string,5,0,1)
 
 
 def state20():
@@ -145,7 +167,7 @@ def state50():
     g.displayText(string,3,0,1)
 
 
-def state60(accountBalance):
+def state60(accountBalance = " "):
     global currentState
     currentState = 60
     #vendor Screen
@@ -162,6 +184,9 @@ def state60(accountBalance):
     g.displayText(string,3,0,1)
     string = ("{:.^%d}" % lineLength).format("TO DEPOSITE")
     g.displayText(string,4,0,1)
+    string = ("{:.<%d}" % lineLength).format("Rs.")
+    g.displayText(string,5,0,1)
+    g.displayText(accountBalance,4,(3*fontWidth-1))
 
 
 def state70(phoneNumber"0000000000",accountBalance="000.00"):

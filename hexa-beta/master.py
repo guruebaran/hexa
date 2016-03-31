@@ -35,8 +35,8 @@ def registermode():
     global state
     if state == 0:
         state = 1
-        autoIdentifyStop()
-        usr.state40()
+        fps.autoIdentifyStop()
+        urs.state40()
 
 def rechargemode():
     global state

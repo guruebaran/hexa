@@ -65,15 +65,16 @@ while True:
 
         if state == 1:
             print("1")
-            if usr.currentState == 40:
+            if urs.currentState == 40:
                 if x.isdigit() or len(mobileNumber) < 10:
                     mobileNumber += x
-                    usr.state40(mobileNumber)
+                    urs.state40(mobileNumber)
                 elif ord(x) == 127: # backspace
                     mobileNumber = mobileNumber[0:len(mobileNumber)-1]
-                    usr.state40(mobileNumber)
+                    urs.state40(mobileNumber)
                 elif ord(x) == 13 or ord(x) == 10:
                     if len(mobileNumber) == 10:
+
 
 
 

@@ -1,5 +1,5 @@
 import serial
-serialport = serial.Serial("/dev/ttyAMA0")
+serialport = serial.Serial("/dev/ttyAMA0", timeout = 1)
 serialport.baudrate = 9600
 d="005001000000000000000051".decode("hex")
 de="005100000000000000000051".decode("hex")

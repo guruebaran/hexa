@@ -12,7 +12,7 @@ def createtables():
     conn.execute('''CREATE TABLE CustomerDetails
        (MobileNumber CHAR(10) PRIMARY KEY NOT NULL UNIQUE,
        AccountBalance REAL);''')
-    print("CustomerDeails Table created successfully")
+    print("CustomerDetails Table created successfully")
     conn.execute('''CREATE TABLE TransactionLogs
        (TransactionId INT PRIMARY KEY NOT NULL,
        MobileNumber CHAR(10) NOT NULL,
@@ -75,7 +75,7 @@ def trans(MobileNumber,Amount,TransactionType, VendorId):
         tid = fo.read()
         tid = tid.decode('utf-8')
         tid = int(tid)
-        tid = tid+1
+        tid += 1
         fo.seek(0)
         fo.truncate()
         fo.write(bytes(str(tid), 'UTF-8'))
@@ -89,11 +89,11 @@ def trans(MobileNumber,Amount,TransactionType, VendorId):
       VALUES (?, ?, ?, ?, ?,     ? )",(tid, MobileNumber, TransactionType, DateTime, VendorId, Amount))
     if (TransactionType == '+'):
         t = currentBalance + Amount
-        #s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
+        # s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
         conn.execute("UPDATE CustomerDetails SET AccountBalance = ? WHERE MobileNumber = ?",(t, MobileNumber))
     elif(TransactionType == '-'):
         t = currentBalance - Amount
-        #s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
+        # s = "UPDATE CustomerDetails SET AccountBalance = %d WHERE MobileNumber = '{!s}'" .format(t, MobileNumber)
         conn.execute("UPDATE CustomerDetails SET AccountBalance = ? WHERE MobileNumber = ?",(t, MobileNumber))
     conn.commit()
     print("Records created successfully id = %d"%(tid))
@@ -104,8 +104,8 @@ def getDateTime():
         return row[0]
 
 def getbal(MobileNumber):
-    s = "SELECT AccountBalance from CustomerDetails WHERE MobileNumber = %s" % MobileNumber
-    cursor = conn.execute(s)
+    # s = "SELECT AccountBalance from CustomerDetails WHERE MobileNumber = %s" % MobileNumber
+    cursor = conn.execute("SELECT AccountBalance from CustomerDetails WHERE MobileNumber = ?", (MobileNumber,))
     for row in cursor:
         return row[0]
     return -1
@@ -128,31 +128,31 @@ def displayAllCustomerDetails():
         print("AccountBalance = ", (row[1]))
     print("Operation done successfully")
 
-p = 0
 
-def verifyMobileNumber():
+def verifyMobileNumber(mobileNumber):
     try:
-        a = "779084487"
-        cursor = conn.execute("SELECT AccountBalance from CustomerDetails WHERE MobileNumber = ? ", (a,))
+        cursor = conn.execute("SELECT AccountBalance from CustomerDetails WHERE MobileNumber = ? ", (mobileNumber,))
+        # print ("length of cursor >>",cursor)
         for row in cursor:
+            print("length of cursor >>", cursor)
             p = row[0]
-        #print(p)
+        # print(p)
         return 0, "Mobile number already Exist", p
     except UnboundLocalError as e:
-        if e.args[0] == "local variable 'p' referenced before assignment":#"name 'p' is not defined":
+        if e.args[0] == "local variable 'p' referenced before assignment":  # "name 'p' is not defined":
             return 1, "Mobile number not found", e
-            #print("yay",e)
+            # print("yay",e)
         else:
             print("unexpected behavior")
 
 
-#createtables()
-#conn.execute('.schema LOGS')
-#conn.execute('.tables')
-#trans("7790844870",100,'+',1001)
-#registerUser("7790844870",500, 1001)
-#registerVendor(1001,"Tuck Shop", 0)
-#displayAllTransactionLogs()
+# createtables()
+# conn.execute('.schema LOGS')
+# conn.execute('.tables')
+# trans("7790844870",100,'+',1001)
+# registerUser("7790844870",500, 1001)
+# registerVendor(1001,"Tuck Shop", 0)
+# displayAllTransactionLogs()
 #print(getbal("7790844870"))
 displayAllCustomerDetails()
-print(verifyMobileNumber())
+# print(verifyMobileNumber("7790844870"))

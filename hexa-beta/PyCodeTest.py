@@ -236,3 +236,30 @@ x = "0"
 #phn = phn + x
 print (phn[0:len(phn)-1])
 
+import database
+
+print(type(database.getDateTime()))
+
+import datetime
+
+print("time>>",type(datetime.datetime.now().time()))
+#print("time>>",(datetime.datetime().second))
+
+import time
+
+print("time. >",time.time())
+
+t = time.time()
+i = 110
+
+while i < 10:
+    #print("inloop")
+    if time.time() - t > 5:
+        i += 1
+        print ("t = ", t)
+        t = time.time()
+        print("hi")
+
+amount = "100"
+
+print(amount + " ?")

@@ -189,7 +189,7 @@ def state60(accountBalance = " "):
     g.displayText(accountBalance,4,(3*fontWidth-1))
 
 
-def state70(phoneNumber"0000000000",accountBalance="000.00"):
+def state70(phoneNumber = "0000000000", accountBalance = "000.00"):
     #vendor Screen
     string = ("{:.^%d}" % lineLength).format("REGISTRATION")
     g.displayText(string,1,0,0)

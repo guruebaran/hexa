@@ -15,7 +15,7 @@ fontWidth = 6
 lineLength = 21
 
 
-def state10(paymentAmount):
+def state10(paymentAmount = " "):
     global currentState
     currentState = 10
     #vendor Screen
@@ -35,18 +35,22 @@ def state10(paymentAmount):
     g.displayText(string,3,0,1)
     g.displayText(paymentAmount,3,(3*fontWidth-1),1)
 
-def state20():
+def state20(amount = "0"):
     global currentState
     currentState = 20
     #vendor Screen
     g.clearDisplay(0)
-
+    string = ("{:.<%d}" % lineLength).format(" Pay Rs. ")
+    g.displayText(string, 1, 0, 0)
+    g.displayText(amount + " ?", 1, (9 * fontWidth - 1), 0)
     string = ("{:.^%d}" % lineLength).format("WAITING FOR FINGER")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-
+    string = ("{:.<%d}" % lineLength).format(" Pay Rs. ")
+    g.displayText(string, 1, 0, 1)
+    g.displayText(amount + " ?", 1, (9 * fontWidth - 1), 1)
     string = ("{:.^%d}" % lineLength).format("PLACE UR FINGER")
     g.displayText(string,3,0,1)
 
@@ -88,12 +92,12 @@ def state32():
     currentState = 32
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("NO ENOUGH BALANCE")
+    string = ("{:.^%d}" % lineLength).format("insufficient BALANCE")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("NO ENOUGH BALANCE")
+    string = ("{:.^%d}" % lineLength).format("insufficient BALANCE")
     g.displayText(string,3,0,1)
 
 

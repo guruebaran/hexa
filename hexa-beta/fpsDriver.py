@@ -1,8 +1,20 @@
 __author__ = 'guru'
 import serial
 import binascii
+import RPi.GPIO as GPIO
+
 serialport = serial.Serial("/dev/ttyAMA0", timeout=0.5)
 serialport.baudrate = 9600
+
+GPIO.setup(8, GPIO.OUT) #Red
+GPIO.setup(11, GPIO.OUT) #Green
+# buzzer
+#light 2
+
+GPIO.output(11,0)
+GPIO.output(8,0)
+
+
 
 def fpsTransmitter(data):
     question =  binascii.unhexlify(data)
@@ -120,9 +132,23 @@ def putTemplateGenerator():
     print("function under construction")
 
 def autoIdentifyStart():
+    ledSoundFunction(1,1)
 
     print("Auto identify started")
 
 def autoIdentifyStop():
+    ledSoundFunction(0,1)
 
     print("Auto identify stopped")
+
+def ledSoundFunction(putstate, colour):
+    if putstate == 1:
+        if colour == 1:
+            GPIO.output(11, 1)
+        if colour == 0:
+            GPIO.output(8, 1)
+    else:
+        if colour == 1:
+            GPIO.output(11, 0)
+        if colour == 0:
+            GPIO.output(8, 0)

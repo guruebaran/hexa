@@ -261,5 +261,14 @@ while i < 10:
         print("hi")
 
 amount = "100"
+# amount += "1"
 
-print(amount + " ?")
+amount = 10
+
+print(type(amount))
+
+a = ("sdsdsdsd",'a', ("sdsdsd", 10))
+
+for i in range(10):
+    print(i)
+

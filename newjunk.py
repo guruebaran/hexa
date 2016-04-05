@@ -15,9 +15,8 @@ def checkSum(dataString,write):
         chkString = '0'
         return (0,chkString)
 
-#a = checkSum(dataSting,0)
-#if( a == 1):
- #   print('yo',a[1])
+a = checkSum(dataSting,0)
+print('yo >>>',a)
 
 channel = dataSting[0:2]
 command = dataSting[2:4]
@@ -74,3 +73,17 @@ def registrationDataGenerator():
     fpsTransmitter(data)
 
 
+def initiateRegistration(mobileNumber):
+    data = dataCompiler('00','50','ff','ff','00','00','05','00','00','00','00')
+    fpsTransmitter(data+mobileNumber)
+    str=fpsReceiver()
+    chk=checkSum(str,0)
+    if (chk[0] == 1):
+        if(str[2:4] == '50' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00'):
+            return (1,'00')
+        else:
+            return (0,'00')
+    else:
+        return (0,str[20:22])
+
+initiateRegistration("7790844870")

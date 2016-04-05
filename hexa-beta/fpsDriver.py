@@ -6,6 +6,8 @@ import RPi.GPIO as GPIO
 serialport = serial.Serial("/dev/ttyAMA0", timeout=0.5)
 serialport.baudrate = 9600
 
+
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(8, GPIO.OUT) #Red
 GPIO.setup(11, GPIO.OUT) #Green
 # buzzer
@@ -23,10 +25,10 @@ def fpsTransmitter(data):
 def fpsReceiver():
     return binascii.hexlify(serialport.read(12)).decode("utf-8")
 
-def fpsReceiverWithExtraData()
+def fpsReceiverWithExtraData():
     return binascii.hexlify(serialport.read(17)).decode("utf-8")
 
-def fpsTemplateReceiver()
+def fpsTemplateReceiver():
     return binascii.hexlify(serialport.read(1623)).decode("utf-8")
 
 def checkSum(dataString,write):
@@ -60,12 +62,12 @@ def initiateRegistration(mobileNumber):
     fpsTransmitter(data+mobileNumber)
     str=fpsReceiver()
     chk=checkSum(str,0)
-    if (chk[0] == 1)
-        if(str[2:4] == '50' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00')
+    if (chk[0] == 1):
+        if(str[2:4] == '50' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00'):
             return (1,'00')
-        else
+        else:
             return (0,'00')
-    else
+    else:
         return (0,str[20:22])
 
 #0x51 command ends registration
@@ -74,12 +76,12 @@ def terminateRegistration():
     fpsTransmitter(data)
     str=fpsReceiver()
     chk=checkSum(str,0)
-    if (chk[0] == 1)
-        if(str[2:4] == '51' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00')
+    if (chk[0] == 1):
+        if(str[2:4] == '51' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00'):
             return (1,'00')
-        else
+        else:
             return (0,'00')
-    else
+    else:
         return (0,str[20:22])
 
 
@@ -89,12 +91,12 @@ def continueRegistration():
     fpsTransmitter(data)
     str=fpsReceiver()
     chk=checkSum(str,0)
-    if (chk[0] == 1)
-        if(str[2:4] == '19' and str[4:6] == '00' and str[6:8] == '00' and str[20:22] == '00')
+    if (chk[0] == 1):
+        if(str[2:4] == '19' and str[4:6] == '00' and str[6:8] == '00' and str[20:22] == '00'):
             return (1,'00')
-        else
+        else:
             return (0,'00')
-    else
+    else:
         return (0,str[20:22])
 
 #0xA3 command for getting input from finger print
@@ -102,12 +104,12 @@ def identify():
     str=fpsReceiverWithExtraData()
 
     chk=checkSum(str,0)
-    if (chk[0] == 1)
-        if(str[2:4] == 'a3' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[8:10] == '00' and str[10:12] == '00' and str[12:14] == '05' and str[20:22] =='00')
+    if (chk[0] == 1):
+        if(str[2:4] == 'a3' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[8:10] == '00' and str[10:12] == '00' and str[12:14] == '05' and str[20:22] =='00'):
             return (1,str[24:34])
-        else
+        else:
             return (0,'00')
-    else
+    else:
         return (0,str[20:22])
 
 
@@ -116,15 +118,15 @@ def getTemplateGenerator(mobileNumber):
     fpsTransmitter(data+mobileNumber)
     str = fpsTemplateReceiver()
     chk=checkSum(str[0:24],0)
-    if (chk[0] == 1)
-        if(str[2:4] == '73' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[3232:3242] == 'mobileNumber')
+    if (chk[0] == 1):
+        if(str[2:4] == '73' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[3232:3242] == 'mobileNumber'):
             #template1 = str[32:3232]
             #template2 = str[1632:3232]
 
             return (1,str[32:3232])
-        else
+        else:
             return (0,'00')
-    else
+    else:
         return (0,str[20:22])
 
 def putTemplateGenerator():

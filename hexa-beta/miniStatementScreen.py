@@ -22,12 +22,12 @@ def state10():
     #vendor Screen
     g.clearDisplay(0)
 
-    string = ("{:.^%d}" % lineLength).format("WAITING FOR FINGER")
+    string = ("{:.^%d}" % lineLength).format("Waiting For Finger")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("PLACE UR FINGER")
+    string = ("{:.^%d}" % lineLength).format("Place Ur Finger")
     g.displayText(string,3,0,1)
 
 
@@ -38,16 +38,16 @@ def state20():
     currentState = 20
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("SCANNING USER'S")
+    string = ("{:.^%d}" % lineLength).format("Scanning User's")
     g.displayText(string,2,0,0)
-    string = ("{:.^%d}" % lineLength).format("FINGER NOW")
+    string = ("{:.^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("SCANNING YOUR")
+    string = ("{:.^%d}" % lineLength).format("Scanning Your")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("FINGER NOW")
+    string = ("{:.^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,1)
 
 
@@ -58,8 +58,10 @@ def state21():
 
     #User Screen
     g.clearDisplay(1)
+    string = ("{:.^%d}" % lineLength).format("OOPS!")
+    g.displayText(string, 3, 0, 1)
     string = ("{:.^%d}" % lineLength).format("ACCOUNT NOT FOUND")
-    g.displayText(string,2,0,1)
+    g.displayText(string,5,0,1)
 
 
 
@@ -70,10 +72,10 @@ def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
     g.clearDisplay(0)
     string = ("{:.^%d}" % lineLength).format("MINI-STATEMENT")
     g.displayText(string,0,0,0)
-    string = ("{:.<%d}" % lineLength).format("PH.NO:")
+    string = ("{:.<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,1,0,0)
     string = "{:<10}".format(phoneNumber)
-    g.displayText(string,1,(6*fontWidth-1),0)
+    g.displayText(string,1,(7*fontWidth-1),0)
     string = ("{:.^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
     g.displayText(string,2,0,0)
     string = "{:<8}".format(date)
@@ -89,10 +91,10 @@ def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
     g.clearDisplay(1)
     string = ("{:.^%d}" % lineLength).format("MINI-STATEMENT")
     g.displayText(string,0,0,1)
-    string = ("{:.<%d}" % lineLength).format("PH.NO:")
+    string = ("{:.<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,1,0,1)
     string = "{:<10}".format(phoneNumber)
-    g.displayText(string,1,(6*fontWidth-1),0)
+    g.displayText(string,1,(7*fontWidth-1),0)
     string = ("{:.^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
     g.displayText(string,2,0,1)
     string = "{:<8}".format(date)

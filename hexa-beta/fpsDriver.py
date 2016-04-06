@@ -23,9 +23,14 @@ def fpsTransmitter(data):
     serialport.write(question)
 
 def fpsReceiver():
-    return binascii.hexlify(serialport.read(12)).decode("utf-8")
+    str = binascii.hexlify(serialport.read(12)).decode("utf-8")
+    print("string res >",str)
+    return str
 
 def fpsReceiverWithExtraData():
+    str = binascii.hexlify(serialport.read(12)).decode("utf-8")
+    #assert isinstance(str, object)
+    print("string res >",str)
     return binascii.hexlify(serialport.read(17)).decode("utf-8")
 
 def fpsTemplateReceiver():

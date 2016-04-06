@@ -20,6 +20,7 @@ GPIO.output(8,0)
 
 def fpsTransmitter(data):
     question =  binascii.unhexlify(data)
+    print("string trans >",data)
     serialport.write(question)
 
 def fpsReceiver():
@@ -29,9 +30,10 @@ def fpsReceiver():
 
 def fpsReceiverWithExtraData():
     str = binascii.hexlify(serialport.read(12)).decode("utf-8")
-    #assert isinstance(str, object)
+    if str[12:16] == "0500":
+        str = str + binascii.hexlify(serialport.read(5)).decode("utf-8")
     print("string res >",str)
-    return binascii.hexlify(serialport.read(17)).decode("utf-8")
+    return str
 
 def fpsTemplateReceiver():
     return binascii.hexlify(serialport.read(1623)).decode("utf-8")
@@ -148,6 +150,20 @@ def autoIdentifyStop():
 
     print("Auto identify stopped")
 
+def identifySingle():
+    data = dataCompiler('00','56','00','00','00','00','00','00','00','00','00')
+    fpsTransmitter(data)
+    str=fpsReceiverWithExtraData()
+    chk=checkSum(str,0)
+    if (chk[0] == 1):
+        if(str[2:4] == '56' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[8:10] == '00' and str[10:12] == '00' and str[12:14] == '05' and str[20:22] =='00'):
+            return (1,str[24:34])
+        else:
+            return (0,'00')
+    else:
+        return (0,str[20:22])
+
+
 def ledSoundFunction(putstate, colour):
     if putstate == 1:
         if colour == 1:
@@ -161,7 +177,12 @@ def ledSoundFunction(putstate, colour):
             GPIO.output(8, 0)
 
 if __name__ == "__main__":
-    if initiateRegistration("7790844803")[0]:
-        if terminateRegistration()[0]:
-            #if continueRegistration()[0]:
-            print(done)
+    print("Enter Mobile Number:")
+    phn = input()
+    if identifySingle()[0] == 0:
+        if initiateRegistration(str(phn))[0]:
+            if terminateRegistration()[0]:
+                #if continueRegistration()[0]:
+                print(done)
+    else:
+        print("user already exist")

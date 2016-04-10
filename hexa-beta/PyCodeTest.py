@@ -266,9 +266,16 @@ amount = "100"
 amount = 10
 
 print(type(amount))
+# input()
 
 a = ("sdsdsdsd",'a', ("sdsdsd", 10))
 
 for i in range(10):
     print(i)
 
+# i = input()
+# print(type(i))
+if input() == '1':
+    print("1")
+elif input() == '2':
+    print("2")

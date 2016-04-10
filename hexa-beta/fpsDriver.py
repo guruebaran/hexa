@@ -8,10 +8,10 @@ serialport.baudrate = 9600
 
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(8, GPIO.OUT) #Red
-GPIO.setup(11, GPIO.OUT) #Green
+GPIO.setup(8, GPIO.OUT) # Red
+GPIO.setup(11, GPIO.OUT) # Green
 # buzzer
-#light 2
+# light 2
 
 GPIO.output(11,0)
 GPIO.output(8,0)
@@ -96,8 +96,8 @@ def terminateRegistration():
 def continueRegistration():
     data = dataCompiler('00','19','00','00','00','00','00','00','00','00','00')
     fpsTransmitter(data)
-    str=fpsReceiver()
-    chk=checkSum(str,0)
+    str = fpsReceiver()
+    chk = checkSum(str,0)
     if (chk[0] == 1):
         if(str[2:4] == '19' and str[4:6] == '00' and str[6:8] == '00' and str[20:22] == '00'):
             return (1,'00')
@@ -110,7 +110,7 @@ def continueRegistration():
 def identify():
     str=fpsReceiverWithExtraData()
 
-    chk=checkSum(str,0)
+    chk = checkSum(str,0)
     if (chk[0] == 1):
         if(str[2:4] == 'a3' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[8:10] == '00' and str[10:12] == '00' and str[12:14] == '05' and str[20:22] =='00'):
             return (1,str[24:34])
@@ -164,6 +164,31 @@ def identifySingle():
         return (0,str[20:22])
 
 
+def makeTemplateStart():
+    data = dataCompiler('00', '35', '00', '00', '00', '00', '00', '00', '00', '00', '00')
+    fpsTransmitter(data)
+    str = fpsReceiver()
+    if checkSum(str, 0)[0]:
+        if str[2:4] == '35' and str[20:22] == '00':
+            return 1
+        else:
+            return 0
+    else:
+        return 0
+
+def makeTemplateContinue():
+        data = dataCompiler('00', '36', '00', '00', '00', '00', '00', '00', '00', '00', '00')
+        fpsTransmitter(data)
+        str = fpsReceiver()
+        if checkSum(str, 0)[0]:
+            if str[2:4] == '36' and str[20:22] == '00':
+                return 1
+            else:
+                return 0
+        else:
+            return 0
+
+
 def ledSoundFunction(putstate, colour):
     if putstate == 1:
         if colour == 1:
@@ -177,12 +202,20 @@ def ledSoundFunction(putstate, colour):
             GPIO.output(8, 0)
 
 if __name__ == "__main__":
-    print("Enter Mobile Number:")
-    phn = input()
-    if identifySingle()[0] == 0:
-        if initiateRegistration(str(phn))[0]:
-            if terminateRegistration()[0]:
-                #if continueRegistration()[0]:
-                print(done)
-    else:
-        print("user already exist")
+    print("1. for normal method reg\n2. for checking template presence")
+    op = input()
+    if op == 1:
+        print("Enter Mobile Number:")
+        phn = input()
+        if identifySingle()[0] == 0:
+            if initiateRegistration(str(phn))[0]:
+                print ("input any char to continue")
+                input()
+                if terminateRegistration()[0]:
+                    #if continueRegistration()[0]:
+                    print("done")
+        else:
+            print("user already exist")
+    elif op == 2:
+        print("place your finger")
+

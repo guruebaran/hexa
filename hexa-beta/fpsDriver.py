@@ -81,7 +81,7 @@ def terminateRegistration():
     str=fpsReceiver()
     chk=checkSum(str,0)
     if (chk[0] == 1):
-        if(str[2:4] == '51' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[20:22] == '00'):
+        if(str[2:4] == '51' and str[20:22] == '00'):
             return (1,'00')
         else:
             return (0,'00')
@@ -208,7 +208,7 @@ def SingleUserDelete(mobileNumber):
     fpsTransmitter(data + mobileNumber)
     str = fpsReceiver()
     chk = checkSum(str,0)
-    if (chk[0] == 1)
+    if (chk[0] == 1):
         if(str[2:4] == '72' and str[20:22] =='00'):
             return (1,'00')
         else:
@@ -222,7 +222,7 @@ def clearFullDatabase():
     fpsTransmitter(data)
     str = fpsReceiver()
     chk = checkSum(str,0)
-    if (chk[0] == 1)
+    if (chk[0] == 1):
         if(str[2:4] == '76' and str[20:22] =='00'):
             return (1,'00')
         else:
@@ -240,12 +240,15 @@ if __name__ == "__main__":
         print("Enter Mobile Number:")
         phn = input()
         if identifySingle()[0] == 0:
+#            continueRegistration()
             if initiateRegistration(str(phn))[0]:
                 print ("input any char to continue")
                 input()
                 if terminateRegistration()[0]:
-                    #if continueRegistration()[0]:
+                    print ("input any char to for 2nd finger")
+                    input()
                     print("done")
+                    print(getTemplateGenerator(phn))
         else:
             print("user already exist")
     elif op == '2':

@@ -1,20 +1,12 @@
 __author__ = 'guru'
 import serial
 import binascii
-import RPi.GPIO as GPIO
+
 
 serialport = serial.Serial("/dev/ttyAMA0", timeout=10)
 serialport.baudrate = 9600
 
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(8, GPIO.OUT) # Red
-GPIO.setup(11, GPIO.OUT) # Green
-# buzzer
-# light 2
-
-GPIO.output(11,0)
-GPIO.output(8,0)
 
 
 
@@ -41,7 +33,7 @@ def fpsTemplateReceiver():
         str = str + binascii.hexlify(serialport.read(1616)).decode("utf-8")
     print("string res   >",str)
     return str
-
+#checksum calculator
 def checkSum(dataString,write):
     totalSum = 0
     for i in range(0,22):
@@ -56,6 +48,7 @@ def checkSum(dataString,write):
         chkString = '0'
         return (0,chkString)
 
+#adds all the chunks
 def dataCompiler(channel,command,param11,param12,param21,param22,dataSize11,dataSize12,dataSize21,dataSize22,errCode):
     All = (channel+command+param11+param12+param21+param22+dataSize11+dataSize12+dataSize21+dataSize22+errCode+'00')
     temp = checkSum(All,1)
@@ -123,7 +116,7 @@ def identify():
     else:
         return (0,str[20:22])
 
-
+#get's template of respective mobileNumber
 def getTemplateGenerator(mobileNumber):
     data = dataCompiler('00','73','ff','ff','00','00','05','00','00','00','00')
     fpsTransmitter(data+mobileNumber)
@@ -140,19 +133,37 @@ def getTemplateGenerator(mobileNumber):
     else:
         return (0,str[20:22])
 
-def putTemplateGenerator():
 
-    print("function under construction")
+#def putTemplateGenerator():
+
+#    print("function under construction")
 
 def autoIdentifyStart():
-    ledSoundFunction(1,1)
+    fpsTransmitter('00a1000000000000000000a1')
+    str = fpsTemplateReceiver()
+    chk = checkSum(str,0)
+     if (chk[0] == 1)
+        if(str[2:4] == 'a1' and str[20:22] =='00'):
+            return (1,'00')
+        else:
+            return (0,'00')
+     else:
+        return (0,str[20:22])
 
-    print("Auto identify started")
 
 def autoIdentifyStop():
-    ledSoundFunction(0,1)
+    fpsTransmitter('00a2000000000000000000a2')
+    str = fpsTemplateReceiver()
+    chk = checkSum(str,0)
+     if (chk[0] == 1)
+        if(str[2:4] == 'a2' and str[20:22] =='00'):
+            return (1,'00')
+        else:
+            return (0,'00')
+     else:
+        return (0,str[20:22])
 
-    print("Auto identify stopped")
+
 
 def identifySingle():
     data = dataCompiler('00','56','00','00','00','00','00','00','00','00','00')
@@ -191,19 +202,36 @@ def makeTemplateContinue():
                 return 0
         else:
             return 0
-
-
-def ledSoundFunction(putstate, colour):
-    if putstate == 1:
-        if colour == 1:
-            GPIO.output(11, 1)
-        if colour == 0:
-            GPIO.output(8, 1)
+#delete single user
+def SingleUserDelete(mobileNumber):
+    data = dataCompiler('00', '72', 'ff', 'ff', '00', '00', '05', '00', '00', '00', '00')
+    fpsTransmitter(data + mobileNumber)
+    str = fpsReceiver()
+    chk = checkSum(str,0)
+    if (chk[0] == 1)
+        if(str[2:4] == '72' and str[20:22] =='00'):
+            return (1,'00')
+        else:
+            return (0,'00')
     else:
-        if colour == 1:
-            GPIO.output(11, 0)
-        if colour == 0:
-            GPIO.output(8, 0)
+        return (0,str[20:22])
+
+#clears the database
+def clearFullDatabase():
+    data = dataCompiler('00', '76', '00', '00', '00', '00', '00', '00', '00', '00', '00')
+    fpsTransmitter(data)
+    str = fpsReceiver()
+    chk = checkSum(str,0)
+    if (chk[0] == 1)
+        if(str[2:4] == '76' and str[20:22] =='00'):
+            return (1,'00')
+        else:
+            return (0,'00')
+    else:
+        return (0,str[20:22])
+
+
+
 
 if __name__ == "__main__":
     print("1. for normal method reg\n2. for checking template presence")

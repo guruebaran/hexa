@@ -90,7 +90,7 @@ def terminateRegistration():
 
 
 #0x19 command for including 2nd finger
-def continueRegistration():
+def doubleRegistration():
     data = dataCompiler('00','19','00','00','00','00','00','00','00','00','00')
     fpsTransmitter(data)
     str = fpsReceiver()

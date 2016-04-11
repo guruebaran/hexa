@@ -27,11 +27,11 @@ kb = kbh.KBHit()
 
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # register
-GPIO.setup(10, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # recharge
-GPIO.setup(27, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # payment
-GPIO.setup(11, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # back
-GPIO.setup(4, GPIO.IN, pull_up_down = GPIO.PUD_DOWN) # FPS Interrupt
+GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_UP) # register
+GPIO.setup(10, GPIO.IN, pull_up_down = GPIO.PUD_UP) # recharge
+GPIO.setup(27, GPIO.IN, pull_up_down = GPIO.PUD_UP) # payment
+GPIO.setup(11, GPIO.IN, pull_up_down = GPIO.PUD_UP) # back
+GPIO.setup(4, GPIO.IN, pull_up_down = GPIO.PUD_UP) # FPS Interrupt
 
 
 
@@ -101,43 +101,38 @@ while True:
                         else: #.......not existing
                             urs.state100()
                             fps.autoIdentifyStart()
-                                if fps.identify()[0] == 0:
-                                    fps.autoIdentifyStop()
-                                    fingerRegistrationGo = 0
-                                    while fingerRegistrationGo == 0:
-                                        if fps.initiateRegistration(mobileNumber)[0] == 1:
-                                            urs.state30()
-                                            if fps.terminateRegistration()[0] == 1:
-                                                if fps.continueRegistration()[0] == 1:
-                                                    urs.state101()
-                                                    urs.autoIdentifyStart()
-                                                    if urs.identify()[0] == 0:
-                                                        urs.autoIdentifyStop()
-                                                        if fps.initiateRegistration(mobileNumber)[0] == 1:
-                                                            urs.state30()
-                                                            if fps.terminateRegistration()[0] == 1:
-                                                                urs.state50()
-                                                                if getTemplateGenerator(mobileNumber)[0] == 1:
-                                                                    #add template to the database
-                                                                    urs.state60()
-                                                                else:
-                                                                    print ("template fetch error")
-                                                            else:
-                                                                print("terminate reg failed")
-                                                        else:
-                                                            print ("initiate reg failed")
-                                                    else:
-                                                        print("poda panni")
-                                                        break
-                                                else:
-                                                    print("continue reg failed")
-                                            else:
-                                                print("terminate reg failed")
-                                        else:
-                                            print("initiate failed")
+                            while True:
+                                if GPIO.input(4) == 0
+                                    if fps.identify()[0] == 0:
+                                        fps.autoIdentifyStop()
+                                        fingerRegistrationGo = 0
+                                        while fingerRegistrationGo == 0:
 
-                                else:
-                                    print("poda panni")
+
+                                            if fps.doubleRegistration()[0] == 1:
+                                                if fps.initiateRegistration(mobileNumber)[0] == 1:
+                                                    urs.state30()
+                                                    if fps.terminateRegistration()[0] == 1:
+                                                        urs.state50()
+                                                        if getTemplateGenerator(mobileNumber)[0] == 1:
+                                                            #add template to the database
+                                                            urs.state60()
+                                                            fingerRegistrationGo = 1
+
+                                                        else:
+                                                            print ("template fetch error")
+                                                    else:
+                                                        print("terminate reg failed")
+                                                else:
+                                                    print ("initiate reg failed")
+                                            else:
+                                                print("double registration ack failed")
+                                        break
+                                    else:
+                                        print("poda panni")
+                                elif GPIO.input(11) == 0:
+                                    break
+
             if urs.currentState == 61:
                 if ord(x) == 13 or ord(x) == 10:
                     urs.state40()

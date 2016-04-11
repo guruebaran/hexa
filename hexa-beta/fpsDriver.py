@@ -142,12 +142,12 @@ def autoIdentifyStart():
     fpsTransmitter('00a1000000000000000000a1')
     str = fpsTemplateReceiver()
     chk = checkSum(str,0)
-     if (chk[0] == 1)
+    if (chk[0] == 1):
         if(str[2:4] == 'a1' and str[20:22] =='00'):
             return (1,'00')
         else:
             return (0,'00')
-     else:
+    else:
         return (0,str[20:22])
 
 
@@ -155,12 +155,12 @@ def autoIdentifyStop():
     fpsTransmitter('00a2000000000000000000a2')
     str = fpsTemplateReceiver()
     chk = checkSum(str,0)
-     if (chk[0] == 1)
+    if (chk[0] == 1):
         if(str[2:4] == 'a2' and str[20:22] =='00'):
             return (1,'00')
         else:
             return (0,'00')
-     else:
+    else:
         return (0,str[20:22])
 
 

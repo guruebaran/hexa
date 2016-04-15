@@ -75,12 +75,37 @@ while True:
                 elif ord(x) == 13 or ord(x) == 10:
                     ps.state20(amount)
                     fps.autoIdentifyStart()
+                    while True:
+                        if GPIO.input(4) == 0:
+                            print("fps interrupt in payment mode")
+                            ps.state30()
+                            fres = fps.identify()
+                            if fres[0]:
+                                fps.autoIdentifyStop()
+                                if trans(fres[1], int(amount), '-', 1001):
+                                    ps.state40()
+                                else:
+                                    ps.state32()
+                            else:
+                                ps.state31()
+                                state = 5
+                                ps.currentState = 0
+                                amount = ""
+                                mobileNumber = ""
+                                screenTime = time.time()
+                        elif GPIO.input(11) == 0:
+                            break
+
 
 
 
 
         if state == 2:
             print("2")
+            if rs.currentState == 10:
+
+
+
 
         if state == 4:
             print("4")
@@ -102,7 +127,7 @@ while True:
                             urs.state100()
                             fps.autoIdentifyStart()
                             while True:
-                                if GPIO.input(4) == 0
+                                if GPIO.input(4) == 0:
                                     if fps.identify()[0] == 0:
                                         fps.autoIdentifyStop()
                                         fingerRegistrationGo = 0

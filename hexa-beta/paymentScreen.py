@@ -86,21 +86,26 @@ def state31():
     string = ("{:^%d}" % lineLength).format("Oops! Account Not Found!")
     g.displayText(string,3,0,1)
 
-def state32():
+def state32(currentBalance):
     global currentState
     currentState = 32
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:^%d}" % lineLength).format("Insufficient Balance")
     g.displayText(string,3,0,0)
+    string = ("{:<%d}" % lineLength).format("Balance Rs.")
+    g.displayText(string,4,0,0)
+    g.displayText(currentBalance,3,(11*fontWidth-1),0)
 
     #User Screen
     g.clearDisplay(1)
     string = ("{:^%d}" % lineLength).format("Insufficient BALANCE")
     g.displayText(string, 3, 0, 1)
-    string = ("{:^%d}" % lineLength).format("We've all been there!")
+   # string = ("{:^%d}" % lineLength).format("We've all been there!")
+   # g.displayText(string,5,0,1)
+    string = ("{:<%d}" % lineLength).format("Balance Rs.")
     g.displayText(string,5,0,1)
-
+    g.displayText(currentBalance,3,(11*fontWidth-1),1)
 
 
 

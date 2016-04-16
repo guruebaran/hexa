@@ -8,6 +8,7 @@ import paymentScreen as ps
 import userRegistrationScreen as urs
 import kbh
 import time
+import binascii
 
 fps.autoIdentifyStart()
 mobileNumber = ""
@@ -15,6 +16,8 @@ amount = ""
 fingerRegistrationGo = 0
 screenTime = 0
 state = 0
+interrupt = 0
+flagtime = 0
 # state 0 - idle_Screen mode
 # state 1 - registration mode
 # state 2 - recharge mode
@@ -30,10 +33,10 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_UP) # register
 GPIO.setup(10, GPIO.IN, pull_up_down = GPIO.PUD_UP) # recharge
 GPIO.setup(27, GPIO.IN, pull_up_down = GPIO.PUD_UP) # payment
-GPIO.setup(11, GPIO.IN, pull_up_down = GPIO.PUD_UP) # back
+GPIO.setup(9, GPIO.IN, pull_up_down = GPIO.PUD_UP) # back
 GPIO.setup(4, GPIO.IN, pull_up_down = GPIO.PUD_UP) # FPS Interrupt
-
-
+GPIO.setup(8,GPIO.OUT) #buzzer
+GPIO.setup(11,GPIO.OUT) #red
 
 def registermode():
     global state
@@ -54,9 +57,31 @@ def paymentmode():
     fps.autoIdentifyStop()
     ps.state10()
 
+
+
 def miniStatementmode():
     global state
     state = 4
+    mss.state30()
+
+def blink():
+    global flagtime
+    flagtime = time.time()
+    global interrupt
+    while interrupt != 1:
+        if kb.kbhit() or GPIO.input(4) == 0 or GPIO.input(9) == 0 or GPIO.input(27) == 0 or GPIO.input(10) == 0 or GPIO.input(17) == 0:
+            interrupt = 0
+        else:
+            GPIO.output(8,True)
+            GPIO.output(11,True)
+
+            if time.time()-flagtime > 0.25:
+
+                GPIO.output(8,False)
+                GPIO.output(11,False)
+                flagtime = time.time()
+    else:
+        break
 
 
 while True:
@@ -82,19 +107,23 @@ while True:
                             fres = fps.identify()
                             if fres[0]:
                                 fps.autoIdentifyStop()
-                                if trans(fres[1], int(amount), '-', 1001):
-                                    ps.state40()
+                                transr = database.trans(fres[1], int(amount), '-', 1001)
+                                if transr[0] == 1:
+                                    ps.state40(amount)
                                 else:
-                                    ps.state32()
+                                    ps.state32(transr[1])
+                                break
                             else:
                                 ps.state31()
-                                state = 5
-                                ps.currentState = 0
-                                amount = ""
-                                mobileNumber = ""
-                                screenTime = time.time()
-                        elif GPIO.input(11) == 0:
+                                break
+                        elif GPIO.input(9) == 0:
+                            ids.state10()
                             break
+                    state = 5
+                    ps.currentState = 0
+                    amount = ""
+                    mobileNumber = ""
+                    screenTime = time.time()
 
 
 
@@ -119,24 +148,28 @@ while True:
                             fres = fps.identify()
                             if fres[0]:
                                 fps.autoIdentifyStop()
-                                if trans(fres[1], int(amount), '+', 1001):
-                                    ps.state40() # to be changed
+                                transr = database.trans(fres[1], int(amount), '+', 1001)
+                                if transr[0]:
+                                    rs.state40(amount, transr[1])
                                 else:
-                                    ps.state32() # to be changed
+                                    rs.state31() # "fatal" exeption to be handled
                             else:
                                 rs.state31()
-                                state = 5
-                                rs.currentState = 0
-                                amount = ""
-                                mobileNumber = ""
-                                screenTime = time.time()
-                        elif GPIO.input(11) == 0:
+                                break
+                        elif GPIO.input(9) == 0:
+                            ids.state10()
                             break
+                    state = 5
+                    rs.currentState = 0
+                    amount = ""
+                    mobileNumber = ""
+                    screenTime = time.time()
 
 
 
         if state == 4:
             print("4")
+
 
         if state == 1:
             print("1")
@@ -167,8 +200,11 @@ while True:
                                                     urs.state30()
                                                     if fps.terminateRegistration()[0] == 1:
                                                         urs.state50()
-                                                        if getTemplateGenerator(mobileNumber)[0] == 1:
-                                                            #add template to the database
+                                                        if urs.getTemplateGenerator(mobileNumber)[0] == 1:
+                                                            tempOne =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[1])
+                                                            tempTwo =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[2])
+                                                            database.storeTemplate(mobileNumber, tempOne, tempTwo)
+
                                                             urs.state60()
                                                             fingerRegistrationGo = 1
 
@@ -183,8 +219,8 @@ while True:
                                         break
                                     else:
                                         print("poda panni")
-                                elif GPIO.input(11) == 0:
-                                    break
+                                elif GPIO.input(9) == 0:
+                                    break  # handle
 
             if urs.currentState == 61:
                 if ord(x) == 13 or ord(x) == 10:
@@ -228,22 +264,36 @@ while True:
     elif GPIO.input(4) == 0:
         if state == 0 or state == 5:
             miniStatementmode()
-        elif state == 3:
-            print("fps interrupt in payment mode")
-
-
-        elif state == 2:
-
-            print("fps interrupt in recharge mode")
         elif state == 4:
-            miniStatementmode()
-        elif state == 1:
-            print ("fps interrupt in register mode, Unexpected behavior")
+            data = fps.identify()
+            if data[0] == 1:
+                mobileNumber = data[1]
+                mss.state30(mobileNumber)
+                dispData = mss.getLastTransactions(mobileNumber,3)
+                for i in range(1,3):
+                    tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
+                    tPoint = str(dispData[i][4])
+                    mss.state30Trans(tDate, tPoint, dispData[i][2], str(dispData[i][5]), i-1)
+
+            else:
+                print ("FPS not found")
+                mss.state21()
+            while True:
+                if GPIO.input(4) == 1:
+                    break
+            ids.state10()
+            state = 0
+            mss.currentState = 0
+            amount = ""
+            mobileNumber = ""
+
 
     elif state == 5:
-        if screenTime - time.time() > 5:
+        if time.time() - screenTime > 5:
             screenTime = 0
             state = 0
+            amount = ""
+            mobileNumber = ""
             ids.state10()
 
 
@@ -256,4 +306,6 @@ while True:
 
 
 database.conn.close()
+database.cursor.close()
 GPIO.cleanup()
+fps.serialport.close()

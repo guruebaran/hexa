@@ -20,17 +20,17 @@ def state10(paymentAmount = " "):
     currentState = 10
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Payment Amount")
+    string = ("{:^%d}" % lineLength).format("Payment Amount")
     g.displayText(string,2,0,0)
-    string = ("{:.<%d}" % lineLength).format("Rs.")
+    string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,0)
     g.displayText(paymentAmount,3,(3*fontWidth-1),1)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Payment Amount")
+    string = ("{:^%d}" % lineLength).format("Payment Amount")
     g.displayText(string,2,0,1)
-    string = ("{:.<%d}" % lineLength).format("Rs.")
+    string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,1)
     g.displayText(paymentAmount,3,(3*fontWidth-1),1)
 
@@ -39,18 +39,18 @@ def state20(amount = "0"):
     currentState = 20
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.<%d}" % lineLength).format(" Pay Rs. ")
+    string = ("{:<%d}" % lineLength).format(" Pay Rs. ")
     g.displayText(string, 1, 0, 0)
     g.displayText(amount + " ?", 1, (9 * fontWidth - 1), 0)
-    string = ("{:.^%d}" % lineLength).format("Waiting For Finger")
+    string = ("{:^%d}" % lineLength).format("Waiting For Finger")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.<%d}" % lineLength).format(" Pay Rs. ")
+    string = ("{:<%d}" % lineLength).format(" Pay Rs. ")
     g.displayText(string, 1, 0, 1)
     g.displayText(amount + " ?", 1, (9 * fontWidth - 1), 1)
-    string = ("{:.^%d}" % lineLength).format("Place Ur Finger")
+    string = ("{:^%d}" % lineLength).format("Place Ur Finger")
     g.displayText(string,3,0,1)
 
 
@@ -61,16 +61,16 @@ def state30():
     currentState = 30
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Scanning User's")
+    string = ("{:^%d}" % lineLength).format("Scanning User's")
     g.displayText(string,2,0,0)
-    string = ("{:.^%d}" % lineLength).format("Finger...")
+    string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Scanning your")
+    string = ("{:^%d}" % lineLength).format("Scanning your")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("Finger...")
+    string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,1)
 
 def state31():
@@ -78,12 +78,12 @@ def state31():
     currentState = 31
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Account Not Found")
+    string = ("{:^%d}" % lineLength).format("Account Not Found")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Oops! Account Not Found!")
+    string = ("{:^%d}" % lineLength).format("Oops! Account Not Found!")
     g.displayText(string,3,0,1)
 
 def state32():
@@ -91,14 +91,14 @@ def state32():
     currentState = 32
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Insufficient Balance")
+    string = ("{:^%d}" % lineLength).format("Insufficient Balance")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Insufficient BALANCE")
+    string = ("{:^%d}" % lineLength).format("Insufficient BALANCE")
     g.displayText(string, 3, 0, 1)
-    string = ("{:.^%d}" % lineLength).format("We've all been there!")
+    string = ("{:^%d}" % lineLength).format("We've all been there!")
     g.displayText(string,5,0,1)
 
 
@@ -110,18 +110,18 @@ def state40(paymentAmount):
     currentState = 40
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Payment Successful")
+    string = ("{:^%d}" % lineLength).format("Payment Successful")
     g.displayText(string,2,0,0)
-    string = ("{:.<%d}" % lineLength).format("Rs.")
+    string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,0)
     g.displayText(paymentAmount,3,(3*fontWidth-1),0)
 
 
     #user Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Payment Successful")
+    string = ("{:^%d}" % lineLength).format("Payment Successful")
     g.displayText(string,2,0,1)
-    string = ("{:.<%d}" % lineLength).format("Rs.")
+    string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,1)
     g.displayText(paymentAmount,3,(3*fontWidth-1),1)
 

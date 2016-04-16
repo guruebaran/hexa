@@ -37,15 +37,15 @@ GPIO.setup(4, GPIO.IN, pull_up_down = GPIO.PUD_UP) # FPS Interrupt
 
 def registermode():
     global state
-    if state == 0:
-        state = 1
-        fps.autoIdentifyStop()
-        urs.state40()
+    state = 1
+    fps.autoIdentifyStop()
+    urs.state40()
 
 def rechargemode():
     global state
     state = 2
     fps.autoIdentifyStop()
+    rs.state10()
 
 
 def paymentmode():
@@ -103,7 +103,35 @@ while True:
         if state == 2:
             print("2")
             if rs.currentState == 10:
-
+                if x.isdigit() or len(amount) < 4:
+                    amount += x
+                    rs.state10(amount)
+                elif ord(x) == 127:  # backspace
+                    amount = amount[0:len(amount) - 1]
+                    rs.state10(amount)
+                elif ord(x) == 13 or ord(x) == 10:
+                    rs.state20(amount)
+                    fps.autoIdentifyStart()
+                    while True:
+                        if GPIO.input(4) == 0:
+                            print("fps interrupt in recharge mode")
+                            rs.state30()
+                            fres = fps.identify()
+                            if fres[0]:
+                                fps.autoIdentifyStop()
+                                if trans(fres[1], int(amount), '+', 1001):
+                                    ps.state40() # to be changed
+                                else:
+                                    ps.state32() # to be changed
+                            else:
+                                rs.state31()
+                                state = 5
+                                rs.currentState = 0
+                                amount = ""
+                                mobileNumber = ""
+                                screenTime = time.time()
+                        elif GPIO.input(11) == 0:
+                            break
 
 
 
@@ -179,44 +207,29 @@ while True:
 
 
 
-    elif GPIO.input(17) == 1:
+    elif GPIO.input(17) == 0:
         if state == 0 or state == 5:
             registermode()
 
 
-    elif GPIO.input(10) == 1:
+    elif GPIO.input(10) == 0:
         if state == 0 or state == 5:
             rechargemode()
 
 
-    elif GPIO.input(27) == 1:
+    elif GPIO.input(27) == 0:
         if state == 0 or state == 5:
             paymentmode()
 
 
-    elif GPIO.input(9) == 1:
+    elif GPIO.input(9) == 0:
         print('back')
 
-    elif GPIO.input(4) == 1:
+    elif GPIO.input(4) == 0:
         if state == 0 or state == 5:
             miniStatementmode()
         elif state == 3:
             print("fps interrupt in payment mode")
-            ps.state30()
-            fres = fps.identify()
-            if fres[0]:
-                fps.autoIdentifyStop()
-                if trans(mobileNumber, int(amount), '-', 1001):
-                    ps.state40()
-                else:
-                    ps.state32()
-            else:
-                ps.state31()
-                state = 5
-                ps.currentState = 0
-                amount = ""
-                mobileNumber = ""
-                screenTime = time.time()
 
 
         elif state == 2:

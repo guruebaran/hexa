@@ -36,4 +36,25 @@ binascii.hexlify(serialport.read(2558)).decode("utf-8")
 
 sl = "003008000000000000000038"
 
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.IN, pull_up_down = GPIO.PUD_UP) # FPS Interrupt
+
+def intr():
+    print("hi1")
+    i = 0
+    t = time.time()
+    while True:
+        while GPIO.input(4) == 0:
+            i += 1
+            if time.time() - t > 1:
+                i = 0
+                t = time.time()
+            print("hi>", i, ">>" ,time.time())
+
+
+
 serialport.close()

@@ -36,7 +36,7 @@ def state40(phoneNumber = ' '):
     g.displayText(string,4,(7*fontWidth-1),0)
     #user Screen
     g.clearDisplay(1)
-    string = ("{:.<%d}" % lineLength).format("Mob.No:")
+    string = ("{:<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,4,0,1)
     string = "{:<10}".format(phoneNumber)
     g.displayText(string,4,(7*fontWidth-1),1)
@@ -53,17 +53,17 @@ def state61():
     currentState = 61
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Mobile Number is")
+    string = ("{:^%d}" % lineLength).format("Mobile Number is")
     g.displayText(string,3,0,0)
-    string = ("{:.^%d}" % lineLength).format("Already Regd.")
+    string = ("{:^%d}" % lineLength).format("Already Regd.")
     g.displayText(string,4,0,0)
 
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("No. Already Exists!")
+    string = ("{:^%d}" % lineLength).format("No. Already Exists!")
     g.displayText(string,3,0,1)
-    string = ("{:.^%d}" % lineLength).format("Pls Try a New No.")
+    string = ("{:^%d}" % lineLength).format("Pls Try a New No.")
     g.displayText(string,4,0,1)
 
 def state100():
@@ -71,16 +71,16 @@ def state100():
     currentState = 10
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Registering")
+    string = ("{:^%d}" % lineLength).format("Registering")
     g.displayText(string,0,0,0)
-    string = ("{:.^%d}" % lineLength).format("Waiting For 1st Finger")
+    string = ("{:^%d}" % lineLength).format("Waiting For 1st Finger")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Registering")
+    string = ("{:^%d}" % lineLength).format("Registering")
     g.displayText(string,0,0,1)
-    string = ("{:.^%d}" % lineLength).format("Place Ur 1st Finger")
+    string = ("{:^%d}" % lineLength).format("Place Ur 1st Finger")
     g.displayText(string,3,0,1)
 
 
@@ -90,20 +90,20 @@ def state101():
     currentState = 10
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Registering")
+    string = ("{:^%d}" % lineLength).format("Registering")
     g.displayText(string,0,0,0)
-    string = ("{:.^%d}" % lineLength).format("Waiting for ")
+    string = ("{:^%d}" % lineLength).format("Waiting for ")
     g.displayText(string,3,0,0)
-    string = ("{:.^%d}" % lineLength).format("2nd Finger")
+    string = ("{:^%d}" % lineLength).format("2nd Finger")
     g.displayText(string, 6, 0, 0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Registering")
+    string = ("{:^%d}" % lineLength).format("Registering")
     g.displayText(string,0,0,1)
-    string = ("{:.^%d}" % lineLength).format("Pls Remove ur Finger")
+    string = ("{:^%d}" % lineLength).format("Pls Remove ur Finger")
     g.displayText(string,3,0,1)
-    string = ("{:.^%d}" % lineLength).format("And Place 2nd Finger")
+    string = ("{:^%d}" % lineLength).format("And Place 2nd Finger")
     g.displayText(string,5,0,1)
 
 
@@ -112,15 +112,15 @@ def state20():
     currentState = 20
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Scanning User's")
+    string = ("{:^%d}" % lineLength).format("Scanning User's")
     g.displayText(string,2,0,0)
-    string = ("{:.^%d}" % lineLength).format("Finger...")
+    string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,0)
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Scanning Your")
+    string = ("{:^%d}" % lineLength).format("Scanning Your")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("Finger...")
+    string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,1)
 
 
@@ -131,11 +131,11 @@ def state30():
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Remove ur Finger")
+    string = ("{:^%d}" % lineLength).format("Remove ur Finger")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("And")
+    string = ("{:^%d}" % lineLength).format("And")
     g.displayText(string,3,0,1)
-    string = ("{:.^%d}" % lineLength).format("Place It Again")
+    string = ("{:^%d}" % lineLength).format("Place It Again")
     g.displayText(string,4,0,1)
 
 
@@ -144,17 +144,17 @@ def state41():
     currentState = 41
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Finger Print")
+    string = ("{:^%d}" % lineLength).format("Finger Print")
     g.displayText(string,3,0,0)
-    string = ("{:.^%d}" % lineLength).format("Already Exists")
+    string = ("{:^%d}" % lineLength).format("Already Exists")
     g.displayText(string,4,0,0)
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Sorry! :(")
+    string = ("{:^%d}" % lineLength).format("Sorry! :(")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("Finger Print")
+    string = ("{:^%d}" % lineLength).format("Finger Print")
     g.displayText(string,3,0,1)
-    string = ("{:.^%d}" % lineLength).format("Already Exists")
+    string = ("{:^%d}" % lineLength).format("Already Exists")
     g.displayText(string,4,0,1)
 
 
@@ -163,16 +163,16 @@ def state50():
     currentState = 50
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Processing...")
+    string = ("{:^%d}" % lineLength).format("Processing...")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("Please Wait")
+    string = ("{:^%d}" % lineLength).format("Please Wait")
     g.displayText(string,3,0,1)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Processing...")
+    string = ("{:^%d}" % lineLength).format("Processing...")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("Please Wait")
+    string = ("{:^%d}" % lineLength).format("Please Wait")
     g.displayText(string,3,0,1)
 
 
@@ -181,17 +181,17 @@ def state60(accountBalance = " "):
     currentState = 60
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Deposit Amount")
+    string = ("{:^%d}" % lineLength).format("Deposit Amount")
     g.displayText(string,2,0,0)
-    string = ("{:.<%d}" % lineLength).format("Rs.")
+    string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,4,0,0)
     g.displayText(accountBalance,4,(3*fontWidth-1),0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("How Much do You Like")
+    string = ("{:^%d}" % lineLength).format("How Much do You Like")
     g.displayText(string,3,0,1)
-    string = ("{:.<%d}" % lineLength).format("To Deposit Rs.")
+    string = ("{:<%d}" % lineLength).format("To Deposit Rs.")
     g.displayText(string,4,0,1)
     g.displayText(accountBalance,4,(14*fontWidth-1),1)
 
@@ -199,26 +199,26 @@ def state60(accountBalance = " "):
 def state70(phoneNumber = "0000000000", accountBalance = "000.00"):
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Registration")
+    string = ("{:^%d}" % lineLength).format("Registration")
     g.displayText(string,1,0,0)
-    string = ("{:.^%d}" % lineLength).format("Successful")
+    string = ("{:^%d}" % lineLength).format("Successful")
     g.displayText(string, 2, 0, 0)
-    string = ("{:.<%d}" % lineLength).format("Mob.No:")
+    string = ("{:<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,4,0,0)
     g.displayText(phoneNumber,4,(7*fontWidth-1))
-    string = ("{:.<%d}" % lineLength).format("Balance:Rs.")
+    string = ("{:<%d}" % lineLength).format("Balance:Rs.")
     g.displayText(string,5,0,1)
     g.displayText(accountBalance,5,(11*fontWidth-1))
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("Successfully Regd.")
+    string = ("{:^%d}" % lineLength).format("Successfully Regd.")
     g.displayText(string,0,0,1)
-    string = ("{:.<%d}" % lineLength).format("Mob.No:")
+    string = ("{:<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,4,0,1)
     g.displayText(phoneNumber,4,(7*fontWidth-1))
-    string = ("{:.<%d}" % lineLength).format("Balance:Rs.")
+    string = ("{:<%d}" % lineLength).format("Balance:Rs.")
     g.displayText(string,5,0,1)
     g.displayText(accountBalance,5,(11*fontWidth-1))
-    string = ("{:.^%d}" % lineLength).format("THANK YOU!")
+    string = ("{:^%d}" % lineLength).format("THANK YOU!")
     g.displayText(string,7,0,1)

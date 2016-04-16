@@ -84,176 +84,175 @@ def blink():
 
 while True:
     global state
-    x = ''
     if kb.kbhit():
         x = kb.getch()
-        if keypress = 0:
-        keypress = 1
-        print ("state > ", state)
-        if state == 0 or state == 5:
-            if x == '1':
-                registermode()
-            elif x == '2':
-                rechargemode()
-            elif x == '3':
-                paymentmode()
-        elif state == 3:
-            print("3")
-            if ps.currentState == 10:
-                if x.isdigit() and len(amount) < 4:
-                    amount += x
-                    ps.state10(amount)
-                elif ord(x) == 127:  # backspace
-                    amount = amount[0:len(amount) - 1]
-                    ps.state10(amount)
-                elif ord(x) == 13 or ord(x) == 10:
-                    ps.state20(amount)
-                    fps.autoIdentifyStart()
-                    while True:
-                        if GPIO.input(4) == 0:
-                            print("fps interrupt in payment mode")
-                            ps.state30()
-                            fres = fps.identify()
-                            if fres[0]:
-                                fps.autoIdentifyStop()
-                                transr = database.trans(fres[1], int(amount), '-', 1001)
-                                if transr[0] == 1:
-                                    ps.state40(amount)
-                                else:
-                                    ps.state32(transr[1])
-                                break
-                            else:
-                                ps.state31()
-                                break
-                        elif GPIO.input(9) == 0:
-                            ids.state10()
-                            break
-                    state = 5
-                    ps.currentState = 0
-                    amount = ""
-                    mobileNumber = ""
-                    screenTime = time.time()
-
-
-
-
-
-        elif state == 2:
-            print("2")
-            if rs.currentState == 10:
-                if x.isdigit() and len(amount) < 4:
-                    amount += x
-                    rs.state10(amount)
-                elif ord(x) == 127:  # backspace
-                    amount = amount[0:len(amount) - 1]
-                    rs.state10(amount)
-                elif ord(x) == 13 or ord(x) == 10:
-                    rs.state20(amount)
-                    fps.autoIdentifyStart()
-                    while True:
-                        if GPIO.input(4) == 0:
-                            print("fps interrupt in recharge mode")
-                            rs.state30()
-                            fres = fps.identify()
-                            if fres[0]:
-                                fps.autoIdentifyStop()
-                                transr = database.trans(fres[1], int(amount), '+', 1001)
-                                if transr[0]:
-                                    rs.state40(amount, transr[1])
-                                else:
-                                    rs.state31() # "fatal" exeption to be handled
-                            else:
-                                rs.state31()
-                                break
-                        elif GPIO.input(9) == 0:
-                            ids.state10()
-                            break
-                    state = 5
-                    rs.currentState = 0
-                    amount = ""
-                    mobileNumber = ""
-                    screenTime = time.time()
-
-
-
-        elif state == 4:
-            print("4")
-
-
-        elif state == 1:
-            print("1")
-            if urs.currentState == 40:
-                if x.isdigit() and len(mobileNumber) < 10:
-                    mobileNumber += x
-                    print("is digit>>", len(mobileNumber))
-                    urs.state40(mobileNumber)
-                elif ord(x) == 127: # backspace
-                    print("backspace start>>", len(mobileNumber))
-                    mlen = len(mobileNumber)
-                    mobileNumber = mobileNumber[0:mlen-1]
-                    print("backspace end>>", len(mobileNumber))
-                    urs.state40(mobileNumber)
-                elif ord(x) == 13 or ord(x) == 10:
-                    if len(mobileNumber) == 10:
-                        if database.verifyMobileNumber(mobileNumber)[0] == 0:#.........number alerady exists
-                            urs.state61()
-                        else: #.......not existing
-                            urs.state100()
-                            fps.autoIdentifyStart()
-                            while True:
-                                if GPIO.input(4) == 0:
-                                    if fps.identify()[0] == 0:
-                                        fps.autoIdentifyStop()
-                                        fingerRegistrationGo = 0
-                                        while fingerRegistrationGo == 0:
-
-
-                                            if fps.doubleRegistration()[0] == 1:
-                                                if fps.initiateRegistration(mobileNumber)[0] == 1:
-                                                    urs.state30()
-                                                    if fps.terminateRegistration()[0] == 1:
-                                                        urs.state50()
-                                                        if urs.getTemplateGenerator(mobileNumber)[0] == 1:
-                                                            tempOne =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[1])
-                                                            tempTwo =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[2])
-                                                            database.storeTemplate(mobileNumber, tempOne, tempTwo)
-
-                                                            urs.state60()
-                                                            fingerRegistrationGo = 1
-
-                                                        else:
-                                                            print ("template fetch error")
-                                                    else:
-                                                        print("terminate reg failed")
-                                                else:
-                                                    print ("initiate reg failed")
-                                            else:
-                                                print("double registration ack failed")
-                                        break
+        if keypress == 0:
+            keypress = 1
+            print ("state > ", state)
+            if state == 0 or state == 5:
+                if x == '1':
+                    registermode()
+                elif x == '2':
+                    rechargemode()
+                elif x == '3':
+                    paymentmode()
+            elif state == 3:
+                print("3")
+                if ps.currentState == 10:
+                    if x.isdigit() and len(amount) < 4:
+                        amount += x
+                        ps.state10(amount)
+                    elif ord(x) == 127:  # backspace
+                        amount = amount[0:len(amount) - 1]
+                        ps.state10(amount)
+                    elif ord(x) == 13 or ord(x) == 10:
+                        ps.state20(amount)
+                        fps.autoIdentifyStart()
+                        while True:
+                            if GPIO.input(4) == 0:
+                                print("fps interrupt in payment mode")
+                                ps.state30()
+                                fres = fps.identify()
+                                if fres[0]:
+                                    fps.autoIdentifyStop()
+                                    transr = database.trans(fres[1], int(amount), '-', 1001)
+                                    if transr[0] == 1:
+                                        ps.state40(amount)
                                     else:
-                                        print("poda panni")
-                                elif GPIO.input(9) == 0:
-                                    break  # handle
+                                        ps.state32(transr[1])
+                                    break
+                                else:
+                                    ps.state31()
+                                    break
+                            elif GPIO.input(9) == 0:
+                                ids.state10()
+                                break
+                        state = 5
+                        ps.currentState = 0
+                        amount = ""
+                        mobileNumber = ""
+                        screenTime = time.time()
 
-            if urs.currentState == 61:
-                mobileNumber = ""
-                if ord(x) == 13 or ord(x) == 10:
-                    urs.state40()
-            if urs.currentState == 60:
-                if x.isdigit() or len(amount) < 4:
-                    amount += x
-                    urs.state60(amount)
-                elif ord(x) == 127:  # backspace
-                    amount = amount[0:len(amount) - 1]
-                    urs.state60(amount)
-                elif ord(x) == 13 or ord(x) == 10:
-                    database.registerUser (mobileNumber, int(amount), 1001) # add money to account
-                    urs.state70(mobileNumber, database.getbal(mobileNumber))  # parameters should be from database
-                    urs.currentState = 0
-                    amount = ""
+
+
+
+
+            elif state == 2:
+                print("2")
+                if rs.currentState == 10:
+                    if x.isdigit() and len(amount) < 4:
+                        amount += x
+                        rs.state10(amount)
+                    elif ord(x) == 127:  # backspace
+                        amount = amount[0:len(amount) - 1]
+                        rs.state10(amount)
+                    elif ord(x) == 13 or ord(x) == 10:
+                        rs.state20(amount)
+                        fps.autoIdentifyStart()
+                        while True:
+                            if GPIO.input(4) == 0:
+                                print("fps interrupt in recharge mode")
+                                rs.state30()
+                                fres = fps.identify()
+                                if fres[0]:
+                                    fps.autoIdentifyStop()
+                                    transr = database.trans(fres[1], int(amount), '+', 1001)
+                                    if transr[0]:
+                                        rs.state40(amount, transr[1])
+                                    else:
+                                        rs.state31() # "fatal" exeption to be handled
+                                else:
+                                    rs.state31()
+                                    break
+                            elif GPIO.input(9) == 0:
+                                ids.state10()
+                                break
+                        state = 5
+                        rs.currentState = 0
+                        amount = ""
+                        mobileNumber = ""
+                        screenTime = time.time()
+
+
+
+            elif state == 4:
+                print("4")
+
+
+            elif state == 1:
+                print("1")
+                if urs.currentState == 40:
+                    if x.isdigit() and len(mobileNumber) < 10:
+                        mobileNumber += x
+                        print("is digit>>", len(mobileNumber))
+                        urs.state40(mobileNumber)
+                    elif ord(x) == 127: # backspace
+                        print("backspace start>>", len(mobileNumber))
+                        mlen = len(mobileNumber)
+                        mobileNumber = mobileNumber[0:mlen-1]
+                        print("backspace end>>", len(mobileNumber))
+                        urs.state40(mobileNumber)
+                    elif ord(x) == 13 or ord(x) == 10:
+                        if len(mobileNumber) == 10:
+                            if database.verifyMobileNumber(mobileNumber)[0] == 0:#.........number alerady exists
+                                urs.state61()
+                            else: #.......not existing
+                                urs.state100()
+                                fps.autoIdentifyStart()
+                                while True:
+                                    if GPIO.input(4) == 0:
+                                        if fps.identify()[0] == 0:
+                                            fps.autoIdentifyStop()
+                                            fingerRegistrationGo = 0
+                                            while fingerRegistrationGo == 0:
+
+
+                                                if fps.doubleRegistration()[0] == 1:
+                                                    if fps.initiateRegistration(mobileNumber)[0] == 1:
+                                                        urs.state30()
+                                                        if fps.terminateRegistration()[0] == 1:
+                                                            urs.state50()
+                                                            if urs.getTemplateGenerator(mobileNumber)[0] == 1:
+                                                                tempOne =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[1])
+                                                                tempTwo =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[2])
+                                                                database.storeTemplate(mobileNumber, tempOne, tempTwo)
+
+                                                                urs.state60()
+                                                                fingerRegistrationGo = 1
+
+                                                            else:
+                                                                print ("template fetch error")
+                                                        else:
+                                                            print("terminate reg failed")
+                                                    else:
+                                                        print ("initiate reg failed")
+                                                else:
+                                                    print("double registration ack failed")
+                                            break
+                                        else:
+                                            print("poda panni")
+                                    elif GPIO.input(9) == 0:
+                                        break  # handle
+
+                if urs.currentState == 61:
                     mobileNumber = ""
-                    state = 5
-                    screenTime = time.time()
+                    if ord(x) == 13 or ord(x) == 10:
+                        urs.state40()
+                if urs.currentState == 60:
+                    if x.isdigit() or len(amount) < 4:
+                        amount += x
+                        urs.state60(amount)
+                    elif ord(x) == 127:  # backspace
+                        amount = amount[0:len(amount) - 1]
+                        urs.state60(amount)
+                    elif ord(x) == 13 or ord(x) == 10:
+                        database.registerUser (mobileNumber, int(amount), 1001) # add money to account
+                        urs.state70(mobileNumber, database.getbal(mobileNumber))  # parameters should be from database
+                        urs.currentState = 0
+                        amount = ""
+                        mobileNumber = ""
+                        state = 5
+                        screenTime = time.time()
 
 
 

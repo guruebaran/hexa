@@ -9,11 +9,11 @@ print("Opened database successfully")
 
 
 def createtables():
-    conn.execute('''CREATE TABLE CustomerDetails
+    conn.execute('''CREATE TABLE IF NOT EXISTS CustomerDetails
        (MobileNumber CHAR(10) PRIMARY KEY NOT NULL UNIQUE,
        AccountBalance REAL);''')
     print("CustomerDetails Table created successfully")
-    conn.execute('''CREATE TABLE TransactionLogs
+    conn.execute('''CREATE TABLE IF NOT EXISTS TransactionLogs
        (TransactionId INT PRIMARY KEY NOT NULL,
        MobileNumber CHAR(10) NOT NULL,
        TransactionType CHAR NOT NULL,
@@ -21,23 +21,28 @@ def createtables():
        VendorId INT NOT NULL,
        Amount REAL NOT NULL);''')
     print("transaction logs Table created successfully")
-    conn.execute('''CREATE TABLE VendorLogs
+    conn.execute('''CREATE TABLE IF NOT EXISTS VendorLogs
        (LogId INT PRIMARY KEY NOT NULL,
        DeviceId INT NOT NULL,
        VendorId INT NOT NULL,
        UserId INT NOT NULL,
        DateTime TEXT NOT NULL);''')
     print("vendor logs Table created successfully")
-    conn.execute('''CREATE TABLE VendorDetails
+    conn.execute('''CREATE TABLE IF NOT EXISTS VendorDetails
        (VendorId INT PRIMARY KEY     NOT NULL,
        VendorName CHAR(3) NOT NULL,
        VendorBalance REAL NOT NULL);''')
     print("vendor details Table created successfully")
-    conn.execute('''CREATE TABLE VendingUserDetails
+    conn.execute('''CREATE TABLE IF NOT EXISTS VendingUserDetails
        (UserId INT PRIMARY KEY     NOT NULL,
        VendorId INT NOT NULL,
        AccessPin INT );''')
-    print("vendor details Table created successfully")
+    print("vendor User details Table created successfully")
+    conn.execute('''CREATE TABLE IF NOT EXISTS FPTemplatedb
+       (MobileNumber CHAR(10) PRIMARY KEY NOT NULL UNIQUE,
+       template1 BLOB,
+       template2 BLOB);''')
+    print("FingerPrint Template Table created successfully")
 
 def registerVendor(VendorId, VendorName = "NULL", VendorBalance = 0.00):
     conn.execute("INSERT INTO VendorDetails (VendorId, VendorName, VendorBalance) \
@@ -69,7 +74,7 @@ def trans(MobileNumber,Amount,TransactionType, VendorId):
     currentBalance=getbal(MobileNumber)
     if(TransactionType == '-'):
         if(currentBalance<Amount):
-            return 0
+            return 0, currentBalance
     if (os.path.isfile("transid.dat")):
         fo = open("transid.dat", "rb+")
         tid = fo.read()
@@ -97,7 +102,7 @@ def trans(MobileNumber,Amount,TransactionType, VendorId):
         conn.execute("UPDATE CustomerDetails SET AccountBalance = ? WHERE MobileNumber = ?",(t, MobileNumber))
     conn.commit()
     print("Records created successfully id = %d"%(tid))
-    return 1
+    return 1, getbal(MobileNumber)
 
 def getDateTime():
     for row in conn.execute('SELECT datetime("now","localtime")'):
@@ -109,6 +114,22 @@ def getbal(MobileNumber):
     for row in cursor:
         return row[0]
     return -1
+
+def getLastTransactions(MobileNumber, count = 3):
+    cursor = conn.execute("SELECT * FROM TransactionLogs  WHERE MobileNumber = ? ORDER BY DateTime DESC LIMIT ?", (MobileNumber, count,))
+    a = [1]
+    for row in cursor:
+        a.append(row)
+    a[0] = len(a) - 1
+    return a
+
+
+def storeTemplate(MobileNumber, template1, template2):
+    conn.execute("INSERT INTO FPTemplatedb (MobileNumber,template1,template2) \
+      VALUES (?, ?, ?)", (MobileNumber, template1, template2))
+    conn.commit()
+    return 1
+
 
 def displayAllTransactionLogs():
     cursor = conn.execute("SELECT *  from TransactionLogs")
@@ -134,7 +155,6 @@ def verifyMobileNumber(mobileNumber):
         cursor = conn.execute("SELECT AccountBalance from CustomerDetails WHERE MobileNumber = ? ", (mobileNumber,))
         # print ("length of cursor >>",cursor)
         for row in cursor:
-            print("length of cursor >>", cursor)
             p = row[0]
         # print(p)
         return 0, "Mobile number already Exist", p
@@ -146,13 +166,15 @@ def verifyMobileNumber(mobileNumber):
             print("unexpected behavior")
 
 
-# createtables()
-# conn.execute('.schema LOGS')
+#createtables()
+#conn.execute('.schema LOGS')
 # conn.execute('.tables')
-# trans("7790844870",100,'+',1001)
+#trans("7790844870",101,'+',1001)
 # registerUser("7790844870",500, 1001)
 # registerVendor(1001,"Tuck Shop", 0)
-# displayAllTransactionLogs()
+#displayAllTransactionLogs()
 #print(getbal("7790844870"))
 displayAllCustomerDetails()
+print((getLastTransactions("7790844870")))
+
 # print(verifyMobileNumber("7790844870"))

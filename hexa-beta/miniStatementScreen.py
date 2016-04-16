@@ -65,7 +65,7 @@ def state21():
 
 
 
-def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
+def state30(phoneNumber):
     global currentState
     currentState = 30
     #vendor Screen
@@ -78,14 +78,6 @@ def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
     g.displayText(string,1,(7*fontWidth-1),0)
     string = ("{:^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
     g.displayText(string,2,0,0)
-    string = "{:<8}".format(date)
-    g.displayText(string,3,0,0)
-    string = "{:<3}".format(transcationPoint)
-    g.displayText(string,3,9,0)
-    string = "{:<1}".format(plusMinus)
-    g.displayText(string,3,13,0)
-    string = "{:<4}".format(amount)
-    g.displayText(string,3,17,0)
 
     #user Screen
     g.clearDisplay(1)
@@ -97,13 +89,28 @@ def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
     g.displayText(string,1,(7*fontWidth-1),0)
     string = ("{:^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
     g.displayText(string,2,0,1)
+
+
+def state30Trans(date, transcationPoint, plusMinus, amount, TransNum):
+    global currentState
+    currentState = 30
+    # vendor Screen
     string = "{:<8}".format(date)
-    g.displayText(string,3,0,1)
+    g.displayText(string,3 + TransNum ,0,0)
     string = "{:<3}".format(transcationPoint)
-    g.displayText(string,3,9,1)
+    g.displayText(string,3 + TransNum,9,0)
     string = "{:<1}".format(plusMinus)
-    g.displayText(string,3,13,1)
+    g.displayText(string,3 + TransNum,13,0)
     string = "{:<4}".format(amount)
-    g.displayText(string,3,17,1)
+    g.displayText(string,3 + TransNum,17,0)
 
 
+    # user Screen
+    string = "{:<8}".format(date)
+    g.displayText(string,3 + TransNum,0,1)
+    string = "{:<3}".format(transcationPoint)
+    g.displayText(string,3 + TransNum,9,1)
+    string = "{:<1}".format(plusMinus)
+    g.displayText(string,3 + TransNum,13,1)
+    string = "{:<4}".format(amount)
+    g.displayText(string,3 + TransNum,17,1)

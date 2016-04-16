@@ -88,6 +88,13 @@ while True:
     global state
     if kb.kbhit():
         x = kb.getch()
+        if state == 0 or state == 5:
+            if x == '1':
+                registermode()
+            elif x == '2':
+                rechargemode()
+            elif x == '3':
+                paymentmode()
         if state == 3:
             print("3")
             if ps.currentState == 10:

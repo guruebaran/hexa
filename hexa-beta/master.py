@@ -202,7 +202,8 @@ while True:
                                 while True:
                                     if fps.autoid == 0:
                                         fps.autoIdentifyStart()
-                                    urs.state100()
+                                    if urs.currentState != 100:
+                                        urs.state100()
                                     if GPIO.input(4) == 0:
                                         if fps.identify()[0] == 0:
                                             fps.autoIdentifyStop()

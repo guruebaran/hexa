@@ -71,7 +71,7 @@ def state61():
 
 def state100():
     global currentState
-    currentState = 10
+    currentState = 100
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:^%d}" % lineLength).format("Registering")
@@ -90,7 +90,7 @@ def state100():
 
 def state101():
     global currentState
-    currentState = 10
+    currentState = 101
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:^%d}" % lineLength).format("Registering")

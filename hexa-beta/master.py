@@ -199,40 +199,33 @@ while True:
                             if database.verifyMobileNumber(mobileNumber)[0] == 0:#.........number alerady exists
                                 urs.state61()
                             else: #.......not existing
-                                urs.state100()
-                                fps.autoIdentifyStart()
                                 while True:
+                                    fps.autoIdentifyStart()
+                                    urs.state100()
                                     if GPIO.input(4) == 0:
                                         if fps.identify()[0] == 0:
                                             fps.autoIdentifyStop()
-                                            fingerRegistrationGo = 0
-                                            while fingerRegistrationGo == 0:
-
-
-                                                if fps.doubleRegistration()[0] == 1:
-                                                    if fps.initiateRegistration(mobileNumber)[0] == 1:
-                                                        urs.state30()
-                                                        input()
-                                                        if fps.terminateRegistration()[0] == 1:
-                                                            urs.state50()
-                                                            tempdata = fps.getTemplateGenerator(mobileNumber)
-                                                            if tempdata[0] == 1:
-                                                                tempOne =  binascii.unhexlify(tempdata[1])
-                                                                tempTwo =  binascii.unhexlify(tempdata[2])
-                                                                database.storeTemplate(mobileNumber, tempOne, tempTwo)
-
-                                                                urs.state60()
-                                                                fingerRegistrationGo = 1
-
-                                                            else:
-                                                                print ("template fetch error")
+                                            if fps.doubleRegistration()[0] == 1:
+                                                if fps.initiateRegistration(mobileNumber)[0] == 1:
+                                                    urs.state30()
+                                                    input()
+                                                    if fps.terminateRegistration()[0] == 1:
+                                                        urs.state50()
+                                                        tempdata = fps.getTemplateGenerator(mobileNumber)
+                                                        if tempdata[0] == 1:
+                                                            tempOne =  binascii.unhexlify(tempdata[1])
+                                                            tempTwo =  binascii.unhexlify(tempdata[2])
+                                                            database.storeTemplate(mobileNumber, tempOne, tempTwo)
+                                                            urs.state60()
+                                                            break
                                                         else:
-                                                            print("terminate reg failed")
+                                                            print ("template fetch error")
                                                     else:
-                                                        print ("initiate reg failed")
+                                                        print("terminate reg failed")
                                                 else:
-                                                    print("double registration ack failed")
-                                            break
+                                                    print ("initiate reg failed")
+                                            else:
+                                                print("double registration ack failed")
                                         else:
                                             print("poda panni")
                                     elif GPIO.input(9) == 0:
@@ -241,6 +234,7 @@ while True:
                                         mss.currentState = 0
                                         amount = ""
                                         mobileNumber = ""
+                                        fps.autoIdentifyStop()
                                         break
 
 

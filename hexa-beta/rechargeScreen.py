@@ -14,7 +14,7 @@ fontWidth = 6
 lineLength = 21
 
 
-def state10(rechargeAmount):
+def state10(rechargeAmount = "0"):
     global currentState
     currentState = 10
     #vendor Screen

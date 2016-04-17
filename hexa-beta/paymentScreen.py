@@ -86,7 +86,7 @@ def state31():
     string = ("{:^%d}" % lineLength).format("Oops! Account Not Found!")
     g.displayText(string,3,0,1)
 
-def state32(currentBalance):
+def state32(currentBalance = " "):
     global currentState
     currentState = 32
     #vendor Screen
@@ -110,7 +110,7 @@ def state32(currentBalance):
 
 
 
-def state40(paymentAmount):
+def state40(paymentAmount = " "):
     global currentState
     currentState = 40
     #vendor Screen

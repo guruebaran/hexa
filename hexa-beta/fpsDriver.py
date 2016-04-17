@@ -6,6 +6,7 @@ import binascii
 serialport = serial.Serial("/dev/ttyAMA0", timeout=10)
 serialport.baudrate = 9600
 
+autoid = 0
 
 
 
@@ -140,6 +141,8 @@ def getTemplateGenerator(mobileNumber):
 #    print("function under construction")
 
 def autoIdentifyStart():
+    global autoid
+    autoid = 1
     fpsTransmitter('00a1010000000000000000a2')
     str = fpsTemplateReceiver()
     chk = checkSum(str,0)
@@ -153,6 +156,8 @@ def autoIdentifyStart():
 
 
 def autoIdentifyStop():
+    global autoid
+    autoid = 0
     fpsTransmitter('00a2000000000000000000a2')
     str = fpsTemplateReceiver()
     chk = checkSum(str,0)

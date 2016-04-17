@@ -200,7 +200,8 @@ while True:
                                 urs.state61()
                             else: #.......not existing
                                 while True:
-                                    fps.autoIdentifyStart()
+                                    if fps.autoid == 0:
+                                        fps.autoIdentifyStart()
                                     urs.state100()
                                     if GPIO.input(4) == 0:
                                         if fps.identify()[0] == 0:

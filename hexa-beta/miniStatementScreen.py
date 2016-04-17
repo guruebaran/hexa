@@ -94,23 +94,24 @@ def state30(phoneNumber):
 def state30Trans(date, transcationPoint, plusMinus, amount, TransNum):
     global currentState
     currentState = 30
+    linenum = 3 + TransNum
     # vendor Screen
     string = "{:<8}".format(date)
-    g.displayText(string,3 + TransNum ,0,0)
-    string = "{:<3}".format(transcationPoint)
-    g.displayText(string,3 + TransNum,9,0)
+    g.displayText(string, linenum,0,0)
+    string = "{:<4}".format(transcationPoint)
+    g.displayText(string, linenum,9,0)
     string = "{:<1}".format(plusMinus)
-    g.displayText(string,3 + TransNum,13,0)
+    g.displayText(string, linenum,13,0)
     string = "{:<4}".format(amount)
-    g.displayText(string,3 + TransNum,17,0)
+    g.displayText(string, linenum,17,0)
 
 
     # user Screen
     string = "{:<8}".format(date)
-    g.displayText(string,3 + TransNum,0,1)
-    string = "{:<3}".format(transcationPoint)
-    g.displayText(string,3 + TransNum,9,1)
+    g.displayText(string, linenum,0,1)
+    string = "{:<4}".format(transcationPoint)
+    g.displayText(string, linenum,9,1)
     string = "{:<1}".format(plusMinus)
-    g.displayText(string,3 + TransNum,13,1)
+    g.displayText(string, linenum,13,1)
     string = "{:<4}".format(amount)
-    g.displayText(string,3 + TransNum,17,1)
+    g.displayText(string, linenum,17,1)

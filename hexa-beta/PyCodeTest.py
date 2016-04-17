@@ -280,3 +280,12 @@ qqq = 924.0
 print("qqq =",int(qqq))
 
 
+import database
+dispData = database.getLastTransactions("7790844870",3)
+print (">>>", dispData)
+i = 1
+tt = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
+tt = tPoint = str(dispData[i][4])
+
+string = "{:<3}".format(str(dispData[i][4]))
+print(">>>>", string)

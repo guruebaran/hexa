@@ -109,7 +109,8 @@ while True:
                         amount += x
                         ps.state10(amount)
                     elif ord(x) == 127:  # backspace
-                        amount = amount[0:len(amount) - 1]
+                        alen = len(amount)
+                        amount = amount[0:alen - 1]
                         ps.state10(amount)
                     elif ord(x) == 13 or ord(x) == 10:
                         ps.state20(amount)
@@ -152,7 +153,8 @@ while True:
                         amount += x
                         rs.state10(amount)
                     elif ord(x) == 127:  # backspace
-                        amount = amount[0:len(amount) - 1]
+                        alen = len(amount)
+                        amount = amount[0:alen - 1]
                         rs.state10(amount)
                     elif ord(x) == 13 or ord(x) == 10:
                         rs.state20(amount)
@@ -302,7 +304,6 @@ while True:
                     tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
                     tPoint = str(dispData[i][4])
                     mss.state30Trans(tDate, tPoint, dispData[i][2], str(dispData[i][5]), i-1)
-
             else:
                 print ("FPS not found")
                 mss.state21()

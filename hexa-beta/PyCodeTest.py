@@ -275,7 +275,8 @@ for i in range(10):
 
 # i = input()
 # print(type(i))
-if input() == '1':
-    print("1")
-elif input() == '2':
-    print("2")
+
+qqq = 924.0
+print("qqq =",int(qqq))
+
+

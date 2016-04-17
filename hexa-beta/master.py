@@ -67,7 +67,8 @@ def paymentmode():
 def miniStatementmode():
     global state
     state = 4
-    mss.state30()
+
+
 
 def blink():
     global flagtime
@@ -159,9 +160,11 @@ while True:
                                 print("fps interrupt in recharge mode")
                                 rs.state30()
                                 fres = fps.identify()
+                                print("fres >>", fres)
                                 if fres[0]:
                                     fps.autoIdentifyStop()
                                     transr = database.trans(fres[1], int(amount), '+', 1001)
+                                    print ("transr >>", transr)
                                     if transr[0]:
                                         rs.state40(str(amount), str(transr[1]))
                                     else:

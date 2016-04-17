@@ -298,7 +298,7 @@ while True:
                 mobileNumber = data[1]
                 mss.state30(mobileNumber)
                 dispData = database.getLastTransactions(mobileNumber,3)
-                for i in range(1, dispData[0]):
+                for i in range(1, dispData[0] + 1):
                     tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
                     tPoint = str(dispData[i][4])
                     mss.state30Trans(tDate, tPoint, dispData[i][2], str(dispData[i][5]), i-1)

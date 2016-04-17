@@ -236,7 +236,13 @@ while True:
                                         else:
                                             print("poda panni")
                                     elif GPIO.input(9) == 0:
-                                        break  # handle
+                                        ids.state10()
+                                        state = 0
+                                        mss.currentState = 0
+                                        amount = ""
+                                        mobileNumber = ""
+                                        break
+
 
                 if urs.currentState == 61:
                     mobileNumber = ""

@@ -71,6 +71,8 @@ def registerUser (MobileNumber, VendorId, AccountBalance = 0):
     print("Records created successfully")
 
 def trans(MobileNumber,Amount,TransactionType, VendorId):
+    if verifyMobileNumber(MobileNumber)[0] == 1:
+        return 2, 0  # account not found in db
     currentBalance=getbal(MobileNumber)
     if(TransactionType == '-'):
         if(currentBalance<Amount):
@@ -169,12 +171,12 @@ def verifyMobileNumber(mobileNumber):
 #createtables()
 #conn.execute('.schema LOGS')
 # conn.execute('.tables')
-#print(trans("7790844870",101,'+',1001))
+#print(trans("7790844870",102,'+',1001))
 # registerUser("7790844870",500, 1001)
 # registerVendor(1001,"Tuck Shop", 0)
-displayAllTransactionLogs()
+#displayAllTransactionLogs()
 #print(getbal("7790844870"))
-displayAllCustomerDetails()
+#displayAllCustomerDetails()
 #print((getLastTransactions("7790844870")))
 
 # print(verifyMobileNumber("7790844870"))

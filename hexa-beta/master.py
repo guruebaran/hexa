@@ -119,11 +119,13 @@ while True:
                                 print("fps interrupt in payment mode")
                                 ps.state30()
                                 fres = fps.identify()
-                                if fres[0]:
+                                if fres[0] == 1:
                                     fps.autoIdentifyStop()
                                     transr = database.trans(fres[1], int(amount), '-', 1001)
                                     if transr[0] == 1:
                                         ps.state40(str(amount))
+                                    elif transr[0] == 2:
+                                        ps.state31()
                                     else:
                                         ps.state32(str(transr[1]))
                                     break
@@ -161,14 +163,15 @@ while True:
                                 rs.state30()
                                 fres = fps.identify()
                                 print("fres >>", fres)
-                                if fres[0]:
+                                if fres[0] == 1:
                                     fps.autoIdentifyStop()
                                     transr = database.trans(fres[1], int(amount), '+', 1001)
                                     print ("transr >>", transr)
-                                    if transr[0]:
+                                    if transr[0] == 1:
                                         rs.state40(str(amount), str(transr[1]))
                                     else:
                                         rs.state31() # "fatal" exeption to be handled
+                                    break
                                 else:
                                     rs.state31()
                                     break

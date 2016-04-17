@@ -93,7 +93,6 @@ def state31():
     currentState = 31
     #vendor Screen
     g.clearDisplay(0)
-    g.clearDisplay()
     string = ("{:^%d}" % lineLength).format("Account Not Found")
     g.displayText(string,2,0,0)
 

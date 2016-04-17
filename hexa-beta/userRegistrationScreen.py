@@ -180,6 +180,9 @@ def state50():
 
 
 def state60(accountBalance = " "):
+    if currentState == 60
+        s60num(accountBalance)
+        return
     global currentState
     currentState = 60
     #vendor Screen
@@ -197,6 +200,15 @@ def state60(accountBalance = " "):
     string = ("{:<%d}" % lineLength).format("To Deposit Rs.")
     g.displayText(string,4,0,1)
     g.displayText(accountBalance,4,(14*fontWidth-1),1)
+
+
+def s60num(accountBalance):
+    # vendor Screen
+    g.displayText(accountBalance, 4, (3 * fontWidth - 1), 0)
+
+    # User Screen
+    g.displayText(accountBalance, 4, (14 * fontWidth - 1), 1)
+
 
 
 def state70(phoneNumber = "0000000000", accountBalance = "000.00"):

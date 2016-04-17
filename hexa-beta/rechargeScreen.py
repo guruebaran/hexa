@@ -15,6 +15,9 @@ lineLength = 21
 
 
 def state10(rechargeAmount = "0"):
+    if currentState == 10:
+        num(rechargeAmount)
+        return
     global currentState
     currentState = 10
     #vendor Screen
@@ -22,8 +25,8 @@ def state10(rechargeAmount = "0"):
     string = ("{:^%d}" % lineLength).format("Recharge Amount")
     g.displayText(string,2,0,0)
     string = ("{:<%d}" % lineLength).format("Rs.")
-    g.displayText(string,3,0,0)
-    g.displayText(rechargeAmount,3,(3*fontWidth-1),1)
+    g.displayText(string, 3, 0, 0)
+    g.displayText(rechargeAmount, 3, (3 * fontWidth - 1), 0)
 
     #User Screen
     g.clearDisplay(1)
@@ -32,6 +35,15 @@ def state10(rechargeAmount = "0"):
     string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,1)
     g.displayText(rechargeAmount,3,(3*fontWidth-1),1)
+
+def num(rechargeAmount):
+    # vendor Screen
+    g.displayText(rechargeAmount, 3, (3 * fontWidth - 1), 0)
+
+    #User Screen
+    g.displayText(rechargeAmount,3,(3*fontWidth-1),1)
+
+
 
 def state20(amount = "0"):
     global currentState

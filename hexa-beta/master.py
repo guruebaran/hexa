@@ -53,14 +53,14 @@ def rechargemode():
     global state
     state = 2
     fps.autoIdentifyStop()
-    rs.state10()
+    rs.state10('0')
 
 
 def paymentmode():
     global state
     state = 3
     fps.autoIdentifyStop()
-    ps.state10()
+    ps.state10('0')
 
 
 

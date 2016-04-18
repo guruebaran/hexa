@@ -89,6 +89,30 @@ def blink():
 
 while True:
     global state
+    if GPIO.input(4) == 0:
+        if state == 0 or state == 5:
+            miniStatementmode()
+        elif state == 4:
+            data = fps.identify()
+            if data[0] == 1:
+                mobileNumber = data[1]
+                mss.state30(mobileNumber)
+                dispData = database.getLastTransactions(mobileNumber,3)
+                for i in range(1, dispData[0] + 1):
+                    tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
+                    tPoint = str(dispData[i][4])
+                    mss.state30Trans(tDate, "TkS", dispData[i][2], str(dispData[i][5]), i-1)
+            else:
+                print ("FPS not found")
+                mss.state21()
+            while True:
+                if GPIO.input(4) == 1:
+                    break
+            ids.state10()
+            state = 0
+            mss.currentState = 0
+            amount = ""
+            mobileNumber = ""
     if kb.kbhit():
         keyclock = time.time()
         x = kb.getch()
@@ -126,13 +150,12 @@ while True:
                                     if transr[0] == 1:
                                         ps.state40(str(amount))
                                     elif transr[0] == 2:
-                                        ps.state31()
+                                        ps.state31(str(amount))
                                     else:
                                         ps.state32(str(transr[1]))
                                     break
                                 else:
-                                    ps.state31()
-                                    break
+                                    ps.state31(str(amount))
                             elif GPIO.input(9) == 0:
                                 ids.state10()
                                 break
@@ -171,12 +194,11 @@ while True:
                                     print ("transr >>", transr)
                                     if transr[0] == 1:
                                         rs.state40(str(amount), str(transr[1]))
+                                        break
                                     else:
-                                        rs.state31() # "fatal" exeption to be handled
-                                    break
+                                        rs.state31(amount) # "fatal" exeption to be handled
                                 else:
-                                    rs.state31()
-                                    break
+                                    rs.state31(amount)
                             elif GPIO.input(9) == 0:
                                 ids.state10()
                                 break
@@ -290,31 +312,6 @@ while True:
 
     elif GPIO.input(9) == 0:
         print('back')
-
-    elif GPIO.input(4) == 0:
-        if state == 0 or state == 5:
-            miniStatementmode()
-        elif state == 4:
-            data = fps.identify()
-            if data[0] == 1:
-                mobileNumber = data[1]
-                mss.state30(mobileNumber)
-                dispData = database.getLastTransactions(mobileNumber,3)
-                for i in range(1, dispData[0] + 1):
-                    tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
-                    tPoint = str(dispData[i][4])
-                    mss.state30Trans(tDate, tPoint, dispData[i][2], str(dispData[i][5]), i-1)
-            else:
-                print ("FPS not found")
-                mss.state21()
-            while True:
-                if GPIO.input(4) == 1:
-                    break
-            ids.state10()
-            state = 0
-            mss.currentState = 0
-            amount = ""
-            mobileNumber = ""
 
 
     else:

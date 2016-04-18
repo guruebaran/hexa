@@ -98,20 +98,20 @@ def state30Trans(date, transcationPoint, plusMinus, amount, TransNum):
     # vendor Screen
     string = "{:<8}".format(date)
     g.displayText(string, linenum,(0*fontWidth-1),0)
-    string = "{:<4}".format(transcationPoint)
+    string = "{:<3}".format(transcationPoint)
     g.displayText(string, linenum,(9*fontWidth-1),0)
-    string = "{:<1}".format(plusMinus)
+    string = "{:>2}".format(plusMinus)
     g.displayText(string, linenum,(13*fontWidth-1),0)
     string = "{:<4}".format(amount)
-    g.displayText(string, linenum,(17*fontWidth-1),0)
+    g.displayText(string, linenum,(16*fontWidth-1),0)
 
 
     # user Screen
     string = "{:<8}".format(date)
     g.displayText(string, linenum,(0*fontWidth-1),1)
-    string = "{:<4}".format(transcationPoint)
+    string = "{:<3}".format(transcationPoint)
     g.displayText(string, linenum,(9*fontWidth-1),1)
-    string = "{:<1}".format(plusMinus)
+    string = "{:>2}".format(plusMinus)
     g.displayText(string, linenum,(13*fontWidth-1),1)
     string = "{:<4}".format(amount)
-    g.displayText(string, linenum,(17*fontWidth-1),1)
+    g.displayText(string, linenum,(16*fontWidth-1),1)

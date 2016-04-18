@@ -27,7 +27,8 @@ def state10(paymentAmount = " "):
     g.displayText(string,2,0,0)
     string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,0)
-    g.displayText(paymentAmount,3,(3*fontWidth-1),0)
+    string = "{:<4}".format(paymentAmount)
+    g.displayText(string,3,(3*fontWidth-1),0)
 
     #User Screen
     g.clearDisplay(1)
@@ -35,14 +36,17 @@ def state10(paymentAmount = " "):
     g.displayText(string,2,0,1)
     string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,1)
-    g.displayText(paymentAmount,3,(3*fontWidth-1),1)
+    string = "{:<4}".format(paymentAmount)
+    g.displayText(string,3,(3*fontWidth-1),1)
 
 
 def num (paymentAmount):
     # vendor Screen
-    g.displayText(paymentAmount,3,(3*fontWidth-1),0)
+    string = "{:<4}".format(paymentAmount)
+    g.displayText(string,3,(3*fontWidth-1),0)
     # User Screen
-    g.displayText(paymentAmount,3,(3*fontWidth-1),1)
+    string = "{:<4}".format(paymentAmount)
+    g.displayText(string,3,(3*fontWidth-1),1)
 
 
 def state20(amount = "0"):
@@ -84,18 +88,34 @@ def state30():
     string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,1)
 
-def state31():
+def state31(amount):
     global currentState
     currentState = 31
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:^%d}" % lineLength).format("Account Not Found")
-    g.displayText(string,3,0,0)
+    g.displayText(string,0,0,0)
+    string = ("{:^%d}" % lineLength).format("Try again")
+    g.displayText(string,1,0,0)
+    string = ("{:<%d}" % lineLength).format(" Pay Rs. ")
+    g.displayText(string, 3, 0, 0)
+    g.displayText(amount + " ?", 3, (9 * fontWidth - 1), 0)
+    string = ("{:^%d}" % lineLength).format("Waiting For Finger")
+    g.displayText(string,4,0,0)
 
     #User Screen
     g.clearDisplay(1)
     string = ("{:^%d}" % lineLength).format("Oops! Account Not Found!")
-    g.displayText(string,3,0,1)
+    g.displayText(string,0,0,1)
+    string = ("{:^%d}" % lineLength).format("Try again")
+    g.displayText(string,1,0,1)
+    string = ("{:<%d}" % lineLength).format(" Pay Rs. ")
+    g.displayText(string, 3, 0, 1)
+    g.displayText(amount + " ?", 3, (9 * fontWidth - 1), 1)
+    string = ("{:^%d}" % lineLength).format("Waiting For Finger")
+    g.displayText(string,4,0,1)
+
+
 
 def state32(currentBalance = " "):
     global currentState

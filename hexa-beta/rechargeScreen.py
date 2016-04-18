@@ -26,7 +26,8 @@ def state10(rechargeAmount = "0"):
     g.displayText(string,2,0,0)
     string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string, 3, 0, 0)
-    g.displayText(rechargeAmount, 3, (3 * fontWidth - 1), 0)
+    string = "{:<4}".format(rechargeAmount)
+    g.displayText(string, 3, (3 * fontWidth - 1), 0)
 
     #User Screen
     g.clearDisplay(1)
@@ -34,14 +35,17 @@ def state10(rechargeAmount = "0"):
     g.displayText(string,2,0,1)
     string = ("{:<%d}" % lineLength).format("Rs.")
     g.displayText(string,3,0,1)
-    g.displayText(rechargeAmount,3,(3*fontWidth-1),1)
+    string = "{:<4}".format(rechargeAmount)
+    g.displayText(string,3,(3*fontWidth-1),1)
 
 def num(rechargeAmount):
     # vendor Screen
-    g.displayText(rechargeAmount, 3, (3 * fontWidth - 1), 0)
+    string = "{:<4}".format(rechargeAmount)
+    g.displayText(string, 3, (3 * fontWidth - 1), 0)
 
     #User Screen
-    g.displayText(rechargeAmount,3,(3*fontWidth-1),1)
+    string = "{:<4}".format(rechargeAmount)
+    g.displayText(string,3,(3*fontWidth-1),1)
 
 
 
@@ -88,20 +92,34 @@ def state30():
     string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,1)
 
-def state31():
+def state31(amount):
     global currentState
     currentState = 31
     #vendor Screen
     g.clearDisplay(0)
     string = ("{:^%d}" % lineLength).format("Account Not Found")
-    g.displayText(string,2,0,0)
+    g.displayText(string,0,0,0)
+    string = ("{:^%d}" % lineLength).format("Try again")
+    g.displayText(string,1,0,0)
+    string = ("{:<%d}" % lineLength).format("Recharge Rs. ")
+    g.displayText(string, 3, 0, 0)
+    g.displayText(amount + " ?", 3, (13 * fontWidth - 1), 0)
+    string = ("{:<%d}" % lineLength).format("Waiting for Finger")
+    g.displayText(string,4,0,0)
 
     #User Screen
     g.clearDisplay(1)
     string = ("{:^%d}" % lineLength).format("OOPS!")
-    g.displayText(string, 2, 0, 1)
+    g.displayText(string, 0, 0, 1)
     string = ("{:^%d}" % lineLength).format("Account Not Found")
-    g.displayText(string,3,0,1)
+    g.displayText(string,1,0,1)
+    string = ("{:^%d}" % lineLength).format("Try again")
+    g.displayText(string,2,0,1)
+    string = ("{:<%d}" % lineLength).format("Recharge Rs. ")
+    g.displayText(string, 4, 0, 1)
+    g.displayText(amount + " ?", 4, (13 * fontWidth - 1), 1)
+    string = ("{:<%d}" % lineLength).format("Waiting for Finger")
+    g.displayText(string,5,0,1)
 
 
 

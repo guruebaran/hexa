@@ -102,7 +102,7 @@ while True:
                 for i in range(1, dispData[0] + 1):
                     tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
                     tPoint = str(dispData[i][4])
-                    mss.state30Trans(tDate, "TkS", dispData[i][2], str(dispData[i][5]), bal, i-1)
+                    mss.state30Trans(tDate, "TkS", dispData[i][2], str(dispData[i][5]), str(bal), i-1)
             else:
                 print ("FPS not found")
                 mss.state21()

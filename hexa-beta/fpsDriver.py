@@ -5,6 +5,7 @@ import binascii
 
 serialport = serial.Serial("/dev/ttyAMA0", timeout=10)
 serialport.baudrate = 9600
+serialport.flush()
 
 autoid = 0
 

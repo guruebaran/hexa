@@ -91,7 +91,7 @@ def state30(phoneNumber):
     g.displayText(string,2,0,1)
 
 
-def state30Trans(date, transcationPoint, plusMinus, amount, TransNum):
+def state30Trans(date, transcationPoint, plusMinus, amount, bal, TransNum):
     global currentState
     currentState = 30
     linenum = 3 + TransNum
@@ -104,6 +104,9 @@ def state30Trans(date, transcationPoint, plusMinus, amount, TransNum):
     g.displayText(string, linenum,(13*fontWidth-1),0)
     string = "{:<4}".format(amount)
     g.displayText(string, linenum,(16*fontWidth-1),0)
+    string = ("{:<%d}" % lineLength).format("A/C Balance Rs.")
+    g.displayText(string,7,0,0)
+    g.displayText(bal,7,(15*fontWidth-1),0)
 
 
     # user Screen
@@ -115,3 +118,6 @@ def state30Trans(date, transcationPoint, plusMinus, amount, TransNum):
     g.displayText(string, linenum,(13*fontWidth-1),1)
     string = "{:<4}".format(amount)
     g.displayText(string, linenum,(16*fontWidth-1),1)
+    string = ("{:<%d}" % lineLength).format("A/C Balance Rs.")
+    g.displayText(string,7,0,1)
+    g.displayText(bal,7,(15*fontWidth-1),1)

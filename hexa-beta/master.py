@@ -98,10 +98,11 @@ while True:
                 mobileNumber = data[1]
                 mss.state30(mobileNumber)
                 dispData = database.getLastTransactions(mobileNumber,3)
+                bal = database.getbal(mobileNumber)
                 for i in range(1, dispData[0] + 1):
                     tDate = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
                     tPoint = str(dispData[i][4])
-                    mss.state30Trans(tDate, "TkS", dispData[i][2], str(dispData[i][5]), i-1)
+                    mss.state30Trans(tDate, "TkS", dispData[i][2], str(dispData[i][5]), bal, i-1)
             else:
                 print ("FPS not found")
                 mss.state21()
@@ -151,11 +152,17 @@ while True:
                                         ps.state40(str(amount))
                                     elif transr[0] == 2:
                                         ps.state31(str(amount))
+                                        while True:
+                                            if GPIO.input(4) == 1:
+                                                break
                                     else:
                                         ps.state32(str(transr[1]))
                                     break
                                 else:
                                     ps.state31(str(amount))
+                                    while True:
+                                        if GPIO.input(4) == 1:
+                                            break
                             elif GPIO.input(9) == 0:
                                 ids.state10()
                                 break
@@ -197,8 +204,14 @@ while True:
                                         break
                                     else:
                                         rs.state31(amount) # "fatal" exeption to be handled
+                                        while True:
+                                            if GPIO.input(4) == 1:
+                                                break
                                 else:
                                     rs.state31(amount)
+                                    while True:
+                                        if GPIO.input(4) == 1:
+                                            break
                             elif GPIO.input(9) == 0:
                                 ids.state10()
                                 break

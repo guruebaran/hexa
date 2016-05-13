@@ -10,88 +10,114 @@ __author__ = 'guru'
 
 import GLCD as g
 
+currentState = 0
+
 fontWidth = 6
 lineLength = 21
 
 
 def state10():
+    global currentState
+    currentState = 10
     #vendor Screen
     g.clearDisplay(0)
 
-    string = ("{:.^%d}" % lineLength).format("WAITING FOR FINGER")
+    string = ("{:^%d}" % lineLength).format("Waiting For Finger")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("PLACE UR FINGER")
+    string = ("{:^%d}" % lineLength).format("Place Ur Finger")
     g.displayText(string,3,0,1)
 
 
 
 
 def state20():
+    global currentState
+    currentState = 20
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("SCANNING USER'S")
+    string = ("{:^%d}" % lineLength).format("Scanning User's")
     g.displayText(string,2,0,0)
-    string = ("{:.^%d}" % lineLength).format("FINGER NOW")
+    string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,0)
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("SCANNING YOUR")
+    string = ("{:^%d}" % lineLength).format("Scanning Your")
     g.displayText(string,2,0,1)
-    string = ("{:.^%d}" % lineLength).format("FINGER NOW")
+    string = ("{:^%d}" % lineLength).format("Finger...")
     g.displayText(string,3,0,1)
 
 
 def state21():
+    global currentState
+    currentState = 21
     #vendor Screen
 
     #User Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("ACCOUNT NOT FOUND")
-    g.displayText(string,2,0,1)
+    string = ("{:^%d}" % lineLength).format("OOPS!")
+    g.displayText(string, 3, 0, 1)
+    string = ("{:^%d}" % lineLength).format("ACCOUNT NOT FOUND")
+    g.displayText(string,5,0,1)
 
 
 
-def state30(date,transcationPoint,plusMinus,amount,phoneNumber):
+def state30(phoneNumber):
+    global currentState
+    currentState = 30
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("MINI-STATEMENT")
+    string = ("{:^%d}" % lineLength).format("MINI-STATEMENT")
     g.displayText(string,0,0,0)
-    string = ("{:.<%d}" % lineLength).format("PH.NO:")
+    string = ("{:<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,1,0,0)
     string = "{:<10}".format(phoneNumber)
-    g.displayText(string,1,(6*fontWidth-1),0)
-    string = ("{:.^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
+    g.displayText(string,1,(7*fontWidth-1),0)
+    string = ("{:^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
     g.displayText(string,2,0,0)
-    string = "{:<8}".format(date)
-    g.displayText(string,3,0,0)
-    string = "{:<3}".format(transcationPoint)
-    g.displayText(string,3,9,0)
-    string = "{:<1}".format(plusMinus)
-    g.displayText(string,3,13,0)
-    string = "{:<4}".format(amount)
-    g.displayText(string,3,17,0)
 
     #user Screen
     g.clearDisplay(1)
-    string = ("{:.^%d}" % lineLength).format("MINI-STATEMENT")
+    string = ("{:^%d}" % lineLength).format("MINI-STATEMENT")
     g.displayText(string,0,0,1)
-    string = ("{:.<%d}" % lineLength).format("PH.NO:")
+    string = ("{:<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,1,0,1)
     string = "{:<10}".format(phoneNumber)
-    g.displayText(string,1,(6*fontWidth-1),0)
-    string = ("{:.^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
+    g.displayText(string,1,(7*fontWidth-1),0)
+    string = ("{:^%d}" % lineLength).format(" DATE    VNU P/R  AMT")
     g.displayText(string,2,0,1)
+
+
+def state30Trans(date, transcationPoint, plusMinus, amount, bal, TransNum):
+    global currentState
+    currentState = 30
+    linenum = 3 + TransNum
+    # vendor Screen
     string = "{:<8}".format(date)
-    g.displayText(string,3,0,1)
+    g.displayText(string, linenum,(0*fontWidth-1),0)
     string = "{:<3}".format(transcationPoint)
-    g.displayText(string,3,9,1)
-    string = "{:<1}".format(plusMinus)
-    g.displayText(string,3,13,1)
+    g.displayText(string, linenum,(9*fontWidth-1),0)
+    string = "{:>2}".format(plusMinus)
+    g.displayText(string, linenum,(13*fontWidth-1),0)
     string = "{:<4}".format(amount)
-    g.displayText(string,3,17,1)
+    g.displayText(string, linenum,(16*fontWidth-1),0)
+    string = ("{:<%d}" % lineLength).format("A/C Balance Rs.")
+    g.displayText(string,7,0,0)
+    g.displayText(bal,7,(15*fontWidth-1),0)
 
 
+    # user Screen
+    string = "{:<8}".format(date)
+    g.displayText(string, linenum,(0*fontWidth-1),1)
+    string = "{:<3}".format(transcationPoint)
+    g.displayText(string, linenum,(9*fontWidth-1),1)
+    string = "{:>2}".format(plusMinus)
+    g.displayText(string, linenum,(13*fontWidth-1),1)
+    string = "{:<4}".format(amount)
+    g.displayText(string, linenum,(16*fontWidth-1),1)
+    string = ("{:<%d}" % lineLength).format("A/C Balance Rs.")
+    g.displayText(string,7,0,1)
+    g.displayText(bal,7,(15*fontWidth-1),1)

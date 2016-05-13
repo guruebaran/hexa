@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
     while True:
 
-        if kb.kbhit():
+        if kb.kbhit() == 0:
             c = kb.getch()
             if ord(c) == 27: # ESC
                 print(c, "++++", ord(c))

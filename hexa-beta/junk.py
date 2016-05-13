@@ -29,3 +29,7 @@ errCode = dataSting[20:22]
 data = (channel+command+param11+param12+param21+param22+dataSize11+dataSize12+dataSize21+dataSize22+errCode+'00')
 print('qqqqqqqqqqq',data)
 
+def xyz():
+    return (1,'jkjk')
+
+print('xyz',xyz()[1])

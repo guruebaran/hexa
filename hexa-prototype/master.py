@@ -75,12 +75,12 @@ while True:
                 lcd.message(x)
                 if(i == 9):
                     lcd.clear()
-                    lcd.message('Touch to Proceed.') # reponse time out check
+                    lcd.message('Touch to Proceed.')  # reponse time out check
                     GPIO.output(13,0)
                     sleep(0.05)
                     GPIO.output(13,1)
                     data = fps.readFPS()
-                    if(int(data) == 0xFF): #to be verified
+                    if(int(data) == 0xFF):  # to be verified
                         lcd.clear()
                         lcd.message('Error...')
                     else:
@@ -88,7 +88,7 @@ while True:
                         lcd.message('Initial Deposit = ? \n Rs.')
                         bal = input()
                         lcd.message(str(bal))
-                        database.reguser(int(data),phn,bal) #check if int() is working
+                        database.reguser(int(data),phn,bal)  # check if int() is working
                         lcd.clear()
                         lcd.message('Your new Bal:\n Rs.',str(database.getbal(int(data))))
                         global status
@@ -104,7 +104,7 @@ while True:
                     lcd.message(x)
             else:
                 lcd.clear()
-                lcd.message('Touch to Proceed.') # reponse time out check
+                lcd.message('Touch to Proceed.')  # response time out check
                 GPIO.output(26,0)
                 sleep(0.05)
                 GPIO.output(26,1)

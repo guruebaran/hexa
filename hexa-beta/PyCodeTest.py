@@ -228,3 +228,64 @@ testvar1=binascii.hexlify(s).decode("utf-8")
 print ("\n\n***>>>",type(testvar1 ),">>>>>",testvar1)
 print (">>>>",testvar1[0])
 
+phn = "5678"
+#x = "0"
+#phn = phn + x + x
+x = "0"
+
+#phn = phn + x
+print (phn[0:len(phn)-1])
+
+import database
+
+print(type(database.getDateTime()))
+
+import datetime
+
+print("time>>",type(datetime.datetime.now().time()))
+#print("time>>",(datetime.datetime().second))
+
+import time
+
+print("time. >",time.time())
+
+t = time.time()
+i = 110
+
+while i < 10:
+    #print("inloop")
+    if time.time() - t > 5:
+        i += 1
+        print ("t = ", t)
+        t = time.time()
+        print("hi")
+
+amount = "100"
+# amount += "1"
+
+amount = 10
+
+print(type(amount))
+# input()
+
+a = ("sdsdsdsd",'a', ("sdsdsd", 10))
+
+for i in range(10):
+    print(i)
+
+# i = input()
+# print(type(i))
+
+qqq = 924.0
+print("qqq =",int(qqq))
+
+
+import database
+dispData = database.getLastTransactions("7790844870",3)
+print (">>>", dispData)
+i = 1
+tt = dispData[i][3][5:7]+'/'+dispData[i][3][8:10]+'/'+dispData[i][3][2:4]
+tt = tPoint = str(dispData[i][4])
+
+string = "{:<3}".format(str(dispData[i][4]))
+print(">>>>", string)

@@ -122,9 +122,9 @@ while True:
                                     fps.autoIdentifyStop()
                                     transr = database.trans(fres[1], int(amount), '-', 1001)
                                     if transr[0] == 1:
-                                        ps.state40(amount)
+                                        ps.state40(str(amount))
                                     else:
-                                        ps.state32(transr[1])
+                                        ps.state32(str(transr[1]))
                                     break
                                 else:
                                     ps.state31()
@@ -163,7 +163,7 @@ while True:
                                     fps.autoIdentifyStop()
                                     transr = database.trans(fres[1], int(amount), '+', 1001)
                                     if transr[0]:
-                                        rs.state40(amount, transr[1])
+                                        rs.state40(str(amount), str(transr[1]))
                                     else:
                                         rs.state31() # "fatal" exeption to be handled
                                 else:

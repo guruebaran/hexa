@@ -180,7 +180,7 @@ def state50():
 
 
 def state60(accountBalance = " "):
-    if currentState == 60
+    if currentState == 60:
         s60num(accountBalance)
         return
     global currentState

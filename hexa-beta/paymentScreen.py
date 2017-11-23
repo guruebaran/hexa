@@ -17,7 +17,7 @@ lineLength = 21
 
 def state10(paymentAmount = " "):
     if currentState == 10:
-        num(rechargeAmount)
+        num(paymentAmount)
         return
     global currentState
     currentState = 10

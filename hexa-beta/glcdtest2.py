@@ -290,7 +290,7 @@ class LCD12864(object):
         self.driver.lcd_byte(0x08,1)
 
 def demo():
-    driver = LCD_GPIO(RS=25,RW=7,E=22,D0=5,D1=6,D2=13,D3=19,D4=26,D5=12,D6=16,D7=20,CS1=24,CS2=23,RST=18)
+    driver = LCD_GPIO(RS=25,RW=7,E=21,D0=5,D1=6,D2=13,D3=19,D4=26,D5=12,D6=16,D7=20,CS1=24,CS2=23,RST=18)
     #5,6,13,19,26,12,16,20
     lcd = LCD12864(driver=driver)
     #lcd.lcd_cls()

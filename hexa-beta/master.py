@@ -10,13 +10,14 @@ import kbh
 import time
 import binascii
 
+
+keypress = 0
 fps.autoIdentifyStart()
 mobileNumber = ""
 amount = ""
 fingerRegistrationGo = 0
 screenTime = 0
 state = 0
-interrupt = 0
 flagtime = 0
 # state 0 - idle_Screen mode
 # state 1 - registration mode
@@ -67,10 +68,9 @@ def miniStatementmode():
 def blink():
     global flagtime
     flagtime = time.time()
-    global interrupt
-    while interrupt != 1:
+    while True:
         if kb.kbhit() or GPIO.input(4) == 0 or GPIO.input(9) == 0 or GPIO.input(27) == 0 or GPIO.input(10) == 0 or GPIO.input(17) == 0:
-            interrupt = 0
+            break
         else:
             GPIO.output(8,True)
             GPIO.output(11,True)
@@ -80,14 +80,16 @@ def blink():
                 GPIO.output(8,False)
                 GPIO.output(11,False)
                 flagtime = time.time()
-    else:
-        break
 
 
 while True:
     global state
+    x = ''
     if kb.kbhit():
         x = kb.getch()
+        if keypress = 0:
+        keypress = 1
+        print ("state > ", state)
         if state == 0 or state == 5:
             if x == '1':
                 registermode()
@@ -95,10 +97,10 @@ while True:
                 rechargemode()
             elif x == '3':
                 paymentmode()
-        if state == 3:
+        elif state == 3:
             print("3")
             if ps.currentState == 10:
-                if x.isdigit() or len(amount) < 4:
+                if x.isdigit() and len(amount) < 4:
                     amount += x
                     ps.state10(amount)
                 elif ord(x) == 127:  # backspace
@@ -136,10 +138,10 @@ while True:
 
 
 
-        if state == 2:
+        elif state == 2:
             print("2")
             if rs.currentState == 10:
-                if x.isdigit() or len(amount) < 4:
+                if x.isdigit() and len(amount) < 4:
                     amount += x
                     rs.state10(amount)
                 elif ord(x) == 127:  # backspace
@@ -174,22 +176,26 @@ while True:
 
 
 
-        if state == 4:
+        elif state == 4:
             print("4")
 
 
-        if state == 1:
+        elif state == 1:
             print("1")
             if urs.currentState == 40:
-                if x.isdigit() or len(mobileNumber) < 10:
+                if x.isdigit() and len(mobileNumber) < 10:
                     mobileNumber += x
+                    print("is digit>>", len(mobileNumber))
                     urs.state40(mobileNumber)
                 elif ord(x) == 127: # backspace
-                    mobileNumber = mobileNumber[0:len(mobileNumber)-1]
+                    print("backspace start>>", len(mobileNumber))
+                    mlen = len(mobileNumber)
+                    mobileNumber = mobileNumber[0:mlen-1]
+                    print("backspace end>>", len(mobileNumber))
                     urs.state40(mobileNumber)
                 elif ord(x) == 13 or ord(x) == 10:
                     if len(mobileNumber) == 10:
-                        if database.verifyMobileNumber()[0] == 0:#.........number alerady exists
+                        if database.verifyMobileNumber(mobileNumber)[0] == 0:#.........number alerady exists
                             urs.state61()
                         else: #.......not existing
                             urs.state100()
@@ -230,6 +236,7 @@ while True:
                                     break  # handle
 
             if urs.currentState == 61:
+                mobileNumber = ""
                 if ord(x) == 13 or ord(x) == 10:
                     urs.state40()
             if urs.currentState == 60:
@@ -304,6 +311,9 @@ while True:
             ids.state10()
 
 
+
+    else:
+        keyPress = 0
 
 #---------------------------------------------------------------------------------------------------------------------
 

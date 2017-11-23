@@ -103,7 +103,7 @@ class LCD_GPIO(object):
 
         # Toggle E
         if(currentScreen == 0):
-            print("cs0")
+#            print("cs0")
             time.sleep(self.E_DELAY)
             GPIO.output(self.E1, True)
             time.sleep(self.E_PULSE)

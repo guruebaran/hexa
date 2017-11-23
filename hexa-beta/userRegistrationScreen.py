@@ -26,11 +26,11 @@ def state40(phoneNumber = ' '):
     currentState = 40
     #vendor Screen
     g.clearDisplay(0)
-    string = ("{:.^%d}" % lineLength).format("Please Enter The")
+    string = ("{:^%d}" % lineLength).format("Please Enter The")
     g.displayText(string,2,0,0)
-    string = ("{:.^%d}" % lineLength).format("Mobile Number")
+    string = ("{:^%d}" % lineLength).format("Mobile Number")
     g.displayText(string,3,0,0)
-    string = ("{:.<%d}" % lineLength).format("Mob.No:")
+    string = ("{:<%d}" % lineLength).format("Mob.No:")
     g.displayText(string,4,0,0)
     string = "{:<10}".format(phoneNumber)
     g.displayText(string,4,(7*fontWidth-1),0)
@@ -41,6 +41,12 @@ def state40(phoneNumber = ' '):
     string = "{:<10}".format(phoneNumber)
     g.displayText(string,4,(7*fontWidth-1),1)
 
+def num(phoneNumber = " "):
+    string = "{:<10}".format(phoneNumber)
+    g.displayText(string,4,(7*fontWidth-1),0)
+
+    string = "{:<10}".format(phoneNumber)
+    g.displayText(string,4,(7*fontWidth-1),1)
 
 def state61():
     global currentState

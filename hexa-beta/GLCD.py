@@ -82,15 +82,15 @@ class LCD_GPIO(object):
 
         GPIO.output(self.RW,0)
         GPIO.output(self.RS,mode)
-        if (mode == 1):
-            GPIO.output(self.D0, ~((value) & 0x01))
-            GPIO.output(self.D1, ~((value) & 0x02))
-            GPIO.output(self.D2, ~((value) & 0x04))
-            GPIO.output(self.D3, ~((value) & 0x08))
-            GPIO.output(self.D4, ~((value) & 0x10))
-            GPIO.output(self.D5, ~((value) & 0x20))
-            GPIO.output(self.D6, ~((value) & 0x40))
-            GPIO.output(self.D7, ~((value) & 0x80))
+        if (mode == 19):
+            GPIO.output(self.D0, (~(value)) & 0x01)
+            GPIO.output(self.D1, (~(value)) & 0x02)
+            GPIO.output(self.D2, (~(value)) & 0x04)
+            GPIO.output(self.D3, (~(value)) & 0x08)
+            GPIO.output(self.D4, (~(value)) & 0x10)
+            GPIO.output(self.D5, (~(value)) & 0x20)
+            GPIO.output(self.D6, (~(value)) & 0x40)
+            GPIO.output(self.D7, (~(value)) & 0x80)
         else:
             GPIO.output(self.D0, (value) & 0x01)
             GPIO.output(self.D1, (value) & 0x02)
@@ -229,11 +229,11 @@ def clearDisplay(screen):
 if __name__ == "__main__":
     clearDisplay(0)
     print("hi")
-    displayText("{:^21}".format("  Project Hexa"),3,1,0)
+    displayText("{:^21}".format("Project Hexa"),3,1,0)
     displayText("{:^21}".format(" Welcomes You!! "),4,1,0)
     clearDisplay(1)
-    displayText("{:^21}".format("  Project Hexa"),3,1,1)
+    displayText("{:^21}".format("Project Hexa"),3,1,1)
     displayText("{:^21}".format(" Welcomes You!! "),4,1,1)
 
-    GPIO.cleanup()
+#    GPIO.cleanup()
 

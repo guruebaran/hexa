@@ -403,7 +403,7 @@ def demo2():
 
 def main():
     demo2()
-    GPIO.cleanup()
+#    GPIO.cleanup()
 
 if __name__ == "__main__":
     main()

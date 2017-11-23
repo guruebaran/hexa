@@ -139,7 +139,7 @@ def getTemplateGenerator(mobileNumber):
 #    print("function under construction")
 
 def autoIdentifyStart():
-    fpsTransmitter('00a1000000000000000000a1')
+    fpsTransmitter('00a1010000000000000000a2')
     str = fpsTemplateReceiver()
     chk = checkSum(str,0)
     if (chk[0] == 1):
@@ -240,7 +240,7 @@ if __name__ == "__main__":
         print("Enter Mobile Number:")
         phn = input()
         if identifySingle()[0] == 0:
-#            continueRegistration()
+            doubleRegistration()
             if initiateRegistration(str(phn))[0]:
                 print ("input any char to continue")
                 input()

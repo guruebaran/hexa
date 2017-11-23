@@ -10,8 +10,9 @@ import kbh
 import time
 import binascii
 
-
+keyclock = 0
 keypress = 0
+fps.autoIdentifyStop()
 fps.autoIdentifyStart()
 mobileNumber = ""
 amount = ""
@@ -85,6 +86,7 @@ def blink():
 while True:
     global state
     if kb.kbhit():
+        keyclock = time.time()
         x = kb.getch()
         if keypress == 0:
             keypress = 1
@@ -210,11 +212,13 @@ while True:
                                                 if fps.doubleRegistration()[0] == 1:
                                                     if fps.initiateRegistration(mobileNumber)[0] == 1:
                                                         urs.state30()
+                                                        input()
                                                         if fps.terminateRegistration()[0] == 1:
                                                             urs.state50()
-                                                            if urs.getTemplateGenerator(mobileNumber)[0] == 1:
-                                                                tempOne =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[1])
-                                                                tempTwo =  binascii.unhexlify(urs.getTemplateGenerator(mobileNumber)[2])
+                                                            tempdata = fps.getTemplateGenerator(mobileNumber)
+                                                            if tempdata[0] == 1:
+                                                                tempOne =  binascii.unhexlify(tempdata[1])
+                                                                tempTwo =  binascii.unhexlify(tempdata[2])
                                                                 database.storeTemplate(mobileNumber, tempOne, tempTwo)
 
                                                                 urs.state60()
@@ -312,7 +316,9 @@ while True:
 
 
     else:
-        keyPress = 0
+        if (time.time() - keyclock > 0.1) and keyclock != 0:
+            keypress = 0
+            keyclock = 0
 
 #---------------------------------------------------------------------------------------------------------------------
 

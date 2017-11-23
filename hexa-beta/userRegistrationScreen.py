@@ -22,6 +22,9 @@ lineLength = 21
 
 
 def state40(phoneNumber = ' '):
+    if currentState == 40:
+        num(phoneNumber)
+        return
     global currentState
     currentState = 40
     #vendor Screen

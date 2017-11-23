@@ -107,7 +107,7 @@ def doubleRegistration():
 def identify():
     str=fpsReceiverWithExtraData()
     if len(str) == 0:
-        return 2
+        return 2,2
     chk = checkSum(str,0)
     if (chk[0] == 1):
         if(str[2:4] == 'a3' and str[4:6] == 'ff' and str[6:8] == 'ff' and str[12:14] == '05' and str[20:22] =='00'):

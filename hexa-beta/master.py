@@ -10,6 +10,7 @@ import kbh
 import time
 import binascii
 
+
 keyclock = 0
 keypress = 0
 fps.autoIdentifyStop()
@@ -39,6 +40,8 @@ GPIO.setup(9, GPIO.IN, pull_up_down = GPIO.PUD_UP) # back
 GPIO.setup(4, GPIO.IN, pull_up_down = GPIO.PUD_UP) # FPS Interrupt
 GPIO.setup(8,GPIO.OUT) #buzzer
 GPIO.setup(11,GPIO.OUT) #red
+
+ids.state10()
 
 def registermode():
     global state
@@ -209,7 +212,7 @@ while True:
                                             fps.autoIdentifyStop()
                                             if fps.doubleRegistration()[0] == 1:
                                                 if fps.initiateRegistration(mobileNumber)[0] == 1:
-                                                    urs.state30()
+                                                    urs.state101()
                                                     input()
                                                     if fps.terminateRegistration()[0] == 1:
                                                         urs.state50()
@@ -245,15 +248,15 @@ while True:
                     if ord(x) == 13 or ord(x) == 10:
                         urs.state40()
                 if urs.currentState == 60:
-                    if x.isdigit() or len(amount) < 4:
+                    if x.isdigit() and len(amount) < 4:
                         amount += x
                         urs.state60(amount)
                     elif ord(x) == 127:  # backspace
                         amount = amount[0:len(amount) - 1]
                         urs.state60(amount)
-                    elif ord(x) == 13 or ord(x) == 10:
-                        database.registerUser (mobileNumber, int(amount), 1001) # add money to account
-                        urs.state70(mobileNumber, database.getbal(mobileNumber))  # parameters should be from database
+                    elif (ord(x) == 13 or ord(x) == 10) and len(amount) > 0:
+                        database.registerUser (mobileNumber, 1001, int(amount)) # add money to account
+                        urs.state70(mobileNumber, str(database.getbal(mobileNumber)))  # parameters should be from database
                         urs.currentState = 0
                         amount = ""
                         mobileNumber = ""

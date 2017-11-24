@@ -126,7 +126,7 @@ def state32(currentBalance = " "):
     g.displayText(string,3,0,0)
     string = ("{:<%d}" % lineLength).format("Balance Rs.")
     g.displayText(string,4,0,0)
-    g.displayText(currentBalance,3,(11*fontWidth-1),0)
+    g.displayText(currentBalance,4,(11*fontWidth-1),0)
 
     #User Screen
     g.clearDisplay(1)
@@ -136,7 +136,7 @@ def state32(currentBalance = " "):
    # g.displayText(string,5,0,1)
     string = ("{:<%d}" % lineLength).format("Balance Rs.")
     g.displayText(string,5,0,1)
-    g.displayText(currentBalance,3,(11*fontWidth-1),1)
+    g.displayText(currentBalance,5,(11*fontWidth-1),1)
 
 
 

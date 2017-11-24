@@ -46,12 +46,14 @@ ids.state10()
 def registermode():
     global state
     state = 1
+    urs.currentState = 0
     fps.autoIdentifyStop()
     urs.state40()
 
 def rechargemode():
     global state
     state = 2
+    rs.currentState = 0
     fps.autoIdentifyStop()
     rs.state10('0')
 
@@ -60,12 +62,14 @@ def paymentmode():
     global state
     state = 3
     fps.autoIdentifyStop()
+    ps.currentState = 0
     ps.state10('0')
 
 
 
 def miniStatementmode():
     global state
+    mss.currentState = 0
     state = 4
 
 
@@ -155,6 +159,7 @@ while True:
                                         while True:
                                             if GPIO.input(4) == 1:
                                                 break
+                                        fps.autoIdentifyStart()
                                     else:
                                         ps.state32(str(transr[1]))
                                     break
@@ -207,6 +212,7 @@ while True:
                                         while True:
                                             if GPIO.input(4) == 1:
                                                 break
+                                        fps.autoIdentifyStart()
                                 else:
                                     rs.state31(amount)
                                     while True:
@@ -256,7 +262,12 @@ while True:
                                             if fps.doubleRegistration()[0] == 1:
                                                 if fps.initiateRegistration(mobileNumber)[0] == 1:
                                                     urs.state101()
-                                                    input()
+                                                    while True:
+                                                        if GPIO.input(4) == 1:
+                                                            break
+                                                    while True:
+                                                        if GPIO.input(4) == 0:
+                                                            break
                                                     if fps.terminateRegistration()[0] == 1:
                                                         urs.state50()
                                                         tempdata = fps.getTemplateGenerator(mobileNumber)
@@ -325,6 +336,21 @@ while True:
 
     elif GPIO.input(9) == 0:
         print('back')
+        if state == 1:
+            if urs.currentState == 40:
+                screenTime = time.time() - 5
+                state = 5
+        if state == 2:
+            if rs.currentState == 10:
+                screenTime = time.time() - 5  
+                state = 5
+        if state == 3:
+            if ps.currentState == 10:
+                screenTime = time.time() - 5  
+                state = 5
+        if state == 5: 
+            screenTime = time.time() - 5
+
 
 
     else:
